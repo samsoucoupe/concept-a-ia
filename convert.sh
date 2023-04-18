@@ -1,1 +1,3 @@
-python3 converter.py LoupChevreSaladeEtudiant.xml LoupChevreSalade.dot ; dot -Tpng LoupChevreSalade.dot -o LoupChevreSalade.png
+python3 converter.py -r True -type xtd -input LoupChevreSalade.xml -output LoupChevreSalade.dot ; dot -Tpng LoupChevreSalade.dot -o LoupChevreSalade.png
+#python3 converter.py -r False -type xtd -input LoupChevreSalade.xml -output LoupChevreSalade.dot ; dot -Tpng LoupChevreSalade.dot -o LoupChevreSalade.png
+#python3 converter.py -r False -type xtd -input sceau.xml -output sceau.dot ; dot -Tpng sceau.dot -o sceau.png
