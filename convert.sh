@@ -1,0 +1,1 @@
+python3 converter.py LoupChevreSaladeEtudiant.xml LoupChevreSalade.dot ; dot -Tpng LoupChevreSalade.dot -o LoupChevreSalade.png

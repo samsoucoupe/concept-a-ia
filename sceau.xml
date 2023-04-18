@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8' standalone="no"?>
+<instance format="Talos">
+    <values>
+        <valmatrix id="transitions">
+            <data>0 0 0 3</data>
+            <data>0 0 5 0</data>
+            <data>0 0 5 3</data>
+            <data>4 0 4 0</data>
+        </valmatrix>
+    </values>
+    <variables>
+        <var id="iS5">0</var>
+        <var id="iS3">0</var>
+        <var id="fS5">4</var>
+        <var id="fS3">0</var>
+        <var id="S5" type="int extensional">0 1 2 3 4 5</var>
+        <var id="S3" type="int extensional">0 1 2 3</var>
+    </variables>
+    <variables>
+        <vararray id="state">S5 S3</vararray>
+        <vararray id="initial">iS5 iS3</vararray>
+        <vararray id="final">fS5 fS3</vararray>
+    </variables>
+</instance>
