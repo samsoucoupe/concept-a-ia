@@ -10,6 +10,17 @@ def extract_data_from_xml(xml_root):
     ]
 
     return valmatrix_data
+def extract_nodes_from_xml(xml_root):
+    # get id  and all possible values of each node
+    list_of_nodes = [
+        list(map(int, data.text.split()))
+        for data in xml_root.find("variables").findall("var[@type='int extensional']")
+    ]
+    dico_data = {}
+    nodes= xml_root.find('variables').findall('var[@type="int extensional"]')
+    for node in nodes:
+        dico_data[node.attrib['id']]=list_of_nodes[nodes.index(node)]
+    return dico_data
 
 
 def xml_to_dot(xml_filename, dot_filename,river):
@@ -19,44 +30,78 @@ def xml_to_dot(xml_filename, dot_filename,river):
     valmatrix_data = extract_data_from_xml(xml_root)
     name=dot_filename.strip(".dot")
     dot_graph = Digraph(name)
-    nodes = xml_root.find('variables').findall('var[@type="int extensional"]')
+    nodes = extract_nodes_from_xml(xml_root)
+    print(nodes)
+    print("nodes ^")
 
+
+    name_nodes= [keys for keys in nodes.keys()]
+    print(name_nodes)
 
     print(valmatrix_data)
     print()
-    for elt in nodes:
-        print(elt.attrib['id'])
-    print()
+
 
     for transition in valmatrix_data:
-        # for j in range(len(nodes)):
-        #     print(f"{nodes[j].attrib['id']} intial value = {transition[j]} and final value = {transition[len(nodes)+j]}")
-        #     if transition[j] != transition[len(nodes)+j]:
-        #         lab= f"{transition[j]} -> {transition[len(nodes)+j]}"
-        #         dot_graph.edge(nodes[j].attrib['id'], nodes[j].attrib['id'], label=lab)
         initial_values = transition[:len(nodes)]
         final_values = transition[len(nodes):]
         if river=="True":
-            initial_values_g = [nodes[i].attrib['id'] for i in range(len(nodes)) if initial_values[i] == 1]
-            initial_values_d= [nodes[i].attrib['id'] for i in range(len(nodes)) if initial_values[i] == 0]
+            # prendre la valeurs et si elle est differentes de 1 on affiche le nombre + l'id du noeud sinon on affiche l'id du noeud
+
+            initial_values_g = []
+            initial_values_d = []
+            final_values_g = []
+            final_values_d = []
+            print(initial_values)
+            for i in range(len(nodes)):
+                keys = name_nodes[i]
+                value_node_g=initial_values[i]
+                value_node_d=abs(nodes[keys][-1]-value_node_g)
+                print(f"value node g {value_node_g}")
+                print(f"value node d {value_node_d}")
+
+                if value_node_g > 1:
+                    initial_values_g.append(f"{value_node_g} {keys}")
+                elif value_node_g == 1:
+                    initial_values_g.append(keys)
+
+
+                if value_node_d > 1:
+                    initial_values_d.append(f"{value_node_d} {keys}")
+                elif value_node_d == 1:
+                    initial_values_d.append(keys)
+
+                value_node_g=final_values[i]
+                value_node_d=abs(nodes[keys][-1]-value_node_g)
+                print(f"value node g {value_node_g}")
+                print(f"value node d {value_node_d}")
+
+                if value_node_g > 1:
+                    final_values_g.append(f"{value_node_g} {keys}")
+                elif value_node_g == 1:
+                    final_values_g.append(keys)
+
+                if value_node_d > 1:
+                    final_values_d.append(f"{value_node_d} {keys}")
+                elif value_node_d == 1:
+                    final_values_d.append(keys)
+
             initial_values_g_str = ", ".join(map(str, initial_values_g))
             initial_values_d_str = ", ".join(map(str, initial_values_d))
-            intial_values_str = f"{ initial_values_g_str} | { initial_values_d_str }"
+            initial_values_str = f"{ initial_values_g_str} | { initial_values_d_str }"
 
-            final_values_g = [nodes[i].attrib['id'] for i in range(len(nodes)) if final_values[i] == 1]
-            final_values_d= [nodes[i].attrib['id'] for i in range(len(nodes)) if final_values[i] == 0]
             final_values_g_str = ", ".join(map(str, final_values_g))
             final_values_d_str = ", ".join(map(str, final_values_d))
-
             final_values_str = f"{ final_values_g_str} | { final_values_d_str }"
 
-            dot_graph.edge(intial_values_str, final_values_str)
+
+
+            dot_graph.edge(initial_values_str, final_values_str)
 
         else:
             initial_values_str = ", ".join(map(str, initial_values))
             final_values_str = ", ".join(map(str, final_values))
             dot_graph.edge(initial_values_str, final_values_str)
-
 
 
     with open(dot_filename, "w") as f:
