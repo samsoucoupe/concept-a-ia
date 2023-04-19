@@ -4,7 +4,6 @@ def main(name):
         lien_xml=f"{name}.xml"
         lien_data=f"{name}_data.txt"
 
-
         # Créer la racine du document XML
         root = ET.Element("instance", format="Talos")
 

@@ -9,7 +9,8 @@ def generate_transition_text(current,new):
     final = " ".join([str(x) for x in new])
     return f"{init} {final}"
 def valid_values(state,possible_value,init,actual_transition_list=[]):
-    if len(state)==0 or (generate_transition_text(init,state) in actual_transition_list) or state == init :
+
+    if len(state)==0 or (generate_transition_text(init,state) in actual_transition_list) or (state == init and state != final):
         return False
     for i in range(len(state)):
         if state[i] not in possible_value[i]:
@@ -26,7 +27,7 @@ def convert_to_xml_list(current,variations):
 
 
 
-def generate_variation(state,possible_value,actual_transition_list=[]):
+def generate_variation(state,possible_value,actual_transition_list=[],final=[],init=[]):
     # pour chaque noeud
     # on peut vider, remplir ou verser
 
@@ -51,20 +52,25 @@ def generate_variation(state,possible_value,actual_transition_list=[]):
             new_state[j]=possible_value[j][-1]
         return new_state
 
-    new_state=[]
-    for i in range(len(state)):
-        temp_state=vider(i)
-        if temp_state != None:
-            new_state.append(temp_state)
-        temp_state=remplir(i)
-        if temp_state != None:
-            new_state.append(temp_state)
+    if state == final:
+        new_state=[final]
+        print("final state")
+        print(f"{new_state}")
+    else:
+        new_state=[]
+        for i in range(len(state)):
+            temp_state=vider(i)
+            if temp_state != None:
+                new_state.append(temp_state)
+            temp_state=remplir(i)
+            if temp_state != None:
+                new_state.append(temp_state)
 
-        for j in range(len(state)):
-            if i != j:
-                temp_state=verser(i,j)
-                if temp_state != None:
-                    new_state.append(temp_state)
+            for j in range(len(state)):
+                if i != j:
+                    temp_state=verser(i,j)
+                    if temp_state != None:
+                        new_state.append(temp_state)
 #     on va test les nouvelles valeurs
     valid_states=[]
     temp_transition_list=actual_transition_list.copy()
@@ -79,7 +85,7 @@ def generate_variation(state,possible_value,actual_transition_list=[]):
 def generate_states(states, possible_value,xml_list=[]):
     new_states=[]
     for state in states:
-        new_state=generate_variation(state=state,possible_value=possible_value,actual_transition_list=xml_list)
+        new_state=generate_variation(state=state,possible_value=possible_value,actual_transition_list=xml_list,final=final,init=initial)
         if new_state != []:
             xml_list+=convert_to_xml_list(state,new_state)
             new_states+=new_state
@@ -91,7 +97,7 @@ def main(initial, final, possible_value):
     xml_list=[]
     while stack != []:
         state=stack.pop()
-        new_state=generate_variation(state=state,possible_value=possible_value,actual_transition_list=xml_list)
+        new_state=generate_variation(state=state,possible_value=possible_value,actual_transition_list=xml_list,final=final,init=initial)
         if new_state != []:
             xml_list+=convert_to_xml_list(state,new_state)
             states+=new_state
@@ -104,7 +110,7 @@ if __name__ == '__main__':
 
     with open('sceau_data.txt',"w") as f:
         f.write(f"{xml_list[0]}")
-        for i in range(len(xml_list)):
+        for i in range(1,len(xml_list)):
             f.write(f",{xml_list[i]}")
 
 
