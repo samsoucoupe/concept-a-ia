@@ -50,14 +50,13 @@ def xml_to_dot(xml_filename, dot_filename, river):
     name = dot_filename.split("/")[-1].split(".")[0]
     dot_graph = Digraph(name)
     nodes = extract_nodes_from_xml(xml_root)
-    print(nodes)
-    print("nodes ^")
+
 
     name_nodes = [keys for keys in nodes.keys()]
-    print(name_nodes)
+
 
     dico_states_de_base = extract_states_de_base(xml_root, nodes)
-    print(dico_states_de_base)
+
     # add the base nodes with beautify names in box shape with color
     if river != "True":
         text_initial = [f"{name_nodes[i]} : {nodes[name_nodes[i]][dico_states_de_base['initial'][i]]}" for i in
@@ -79,14 +78,20 @@ def xml_to_dot(xml_filename, dot_filename, river):
                 text_initial += f"{value_node_i} {keys}, "
             elif value_node_i == 1:
                 text_initial += f"{keys}, "
+            else:
+                text_initial += f"{keys}, "
+
             if value_node_f > 1:
                 text_final += f"{value_node_f} {keys}, "
             elif value_node_f == 1:
                 text_final += f"{keys}, "
             else:
                 text_final += f"{keys}, "
+
         text_initial = text_initial[:-2]
         text_final = text_final[:-2]
+        text_initial = f"{text_initial}|"
+        text_final = f"|{text_final}"
 
     dot_graph.node("initial", shape="box", color="green", label=f"{text_initial}")
     dot_graph.node("final", shape="box", color="red", label=f"{text_final}")
@@ -119,12 +124,12 @@ def xml_to_dot(xml_filename, dot_filename, river):
                 initial_values_d = initial_values_d[:-2]
                 initial_values_str = f"{initial_values_g} | {initial_values_d}"
 
-            print(final_values)
-            print(final_values == dico_states_de_base["final"])
+
 
             if final_values == dico_states_de_base["final"]:
                 final_values_str = "final"
-
+            elif final_values == dico_states_de_base["initial"]:
+                final_values_str = "initial"
             else:
                 final_values_g = ""
                 final_values_d = ""
@@ -183,33 +188,185 @@ def dot_to_xml(input_filename, output_filename):
         else:
             edges.append(line)
 
-    print(f"nodes {nodes}\n")
-    print(f"edges {edges}\n")
+
 
     initial_edges = {}
     final_edges = {}
-    edges_name = []
+
 
     for node in edges:
+
         node_type = node.split(" ")[0]
         node_data = node.split("label=")[1].split("\"")[1]
-        node_part = node_data.split(", ")
-        node_name = []
+        edges_name = []
         node_value = []
-        for part in node_part:
-            node_name.append(part.split(" : ")[0])
-            node_value.append(part.split(" : ")[1])
-        edges_name = node_name
-        if node_type == "initial":
-            for i in range(len(node_name)):
-                initial_edges[f"i{node_name[i]}"] = node_value[i]
-        else:
-            for i in range(len(node_name)):
-                final_edges[f"f{node_name[i]}"] = node_value[i]
+        if river == "True":
+            node_part = node_data.split("|")
+            G= node_part[0].split(", ")
+            D = node_part[1].split(", ")
 
-    print(f"initial_edges {initial_edges}\n")
-    print(f"final_edges {final_edges}\n")
-    print(f"edges_name {edges_name}\n")
+            for part in G:
+                if " " in part:
+                    edges_name.append(part.split(" ")[1])
+                    node_value.append(part.split(" ")[0])
+                elif part != "":
+                    edges_name.append(part)
+                    node_value.append(1)
+
+            for part in D:
+                if " " in part:
+                    edges_name.append(part.split(" ")[1])
+                    node_value.append(part.split(" ")[0])
+                elif part != "":
+                    edges_name.append(part)
+                    node_value.append(0)
+
+        else:
+
+            node_part = node_data.split(", ")
+            for part in node_part:
+                    edges_name.append(part.split(" : ")[0])
+                    node_value.append(part.split(" : ")[1])
+
+
+        if node_type == "initial":
+            for i in range(len(edges_name)):
+                initial_edges[f"i{edges_name[i]}"] = node_value[i]
+        else:
+            for i in range(len(edges_name)):
+                final_edges[f"f{edges_name[i]}"] = node_value[i]
+
+    #     partie recuperation des data
+    if river == "True":
+        init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]
+        final_convert = [int(final_edges[key]) for key in final_edges.keys()]
+    else:
+        init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]
+        final_convert = [int(final_edges[key]) for key in final_edges.keys()]
+
+    data = []
+
+    for node in nodes:
+        init, final = node.split(" -> ")[0], node.split(" -> ")[1]
+
+        if "initial" in init:
+            init = init_convert
+        elif "final" in init:
+            init = final_convert
+        else:
+            if river == "True":
+                temp_data = [0] * len(edges_name)
+                I = init.split(" | ")[0].strip("\"").split(", ")
+
+                for i, edge_name in enumerate(edges_name):
+                    if edge_name in I:
+                        weight = I[I.index(edge_name)].split(" ")[0]
+                        temp_data[i] = int(weight) if weight.isdigit() else 1
+
+
+                init = temp_data
+            else:
+                init = list(map(int, init.strip("\"").split(", ")))
+
+        if "final" in final:
+            final = final_convert
+        elif "initial" in final:
+            final = init_convert
+        else:
+            if river == "True":
+                temp_data = [0] * len(edges_name)
+                F = final.split(" | ")[0].strip("\"").split(", ")
+
+                for i, edge_name in enumerate(edges_name):
+                    if edge_name in F:
+                        weight = F[F.index(edge_name)].split(" ")[0]
+                        temp_data[i] = int(weight) if weight.isdigit() else 1
+
+
+                final = temp_data
+            else:
+                final = list(map(int, final.strip("\"").split(", ")))
+
+        value = " ".join(map(str, init + final))
+        data.append(value)
+
+
+
+    
+    #de 0 au max de chaque noeud    [5,3,2] , [10,5,3] -> [[0...10],[0...5],[0...3]]
+    max_possible = [0 for i in range(len(edges_name))]
+    # on doit sortir le max de chaque noeud [5,3,2] , [10,5,3] -> [10,5,3]
+    for i in range(len(data)):
+        for j in range(len(edges_name)):
+            if int(data[i].split(" ")[j]) > max_possible[j]:
+                max_possible[j] = int(data[i].split(" ")[j])
+
+    valeur_possible = [[i for i in range(max_possible[j]+1)] for j in range(len(edges_name))]
+
+    #     ecriture du fichier xml
+    root = ET.Element("root")
+    # Créer la racine du document XML
+    root = ET.Element("instance", format="Talos")
+
+    # Ajouter les valeurs du document
+    values = ET.SubElement(root, "values")
+
+    valmatrix = ET.SubElement(values, "valmatrix", id="transitions")
+
+    for row in data:
+        ET.SubElement(valmatrix, "data").text = row
+
+    # Ajouter les variables du document
+    variables = ET.SubElement(root, "variables")
+
+    for name in initial_edges:
+        var = ET.SubElement(variables, "var", id=f"{name}")
+        var.text=str(initial_edges[name])
+
+    for name in final_edges:
+        var = ET.SubElement(variables, "var", id=f"{name}")
+        var.text=str(final_edges[name])
+
+    for i in range(len(edges_name)):
+        name=edges_name[i]
+        var = ET.SubElement(variables, "var", id=f"{name}", type="int extensional")
+        possible=" ".join(map(str, valeur_possible[i]))
+        var.text = possible
+
+    # Ajouter les variables du document
+    variables = ET.SubElement(root, "variables")
+
+    vararray = ET.SubElement(variables, "vararray", id="state")
+    vararray.text = str(" ".join(map(str, edges_name)))
+
+
+    vararray = ET.SubElement(variables, "vararray", id="initial")
+    vararray.text = str(" ".join(map(str, [x for x in initial_edges.keys()])))
+
+    vararray = ET.SubElement(variables, "vararray", id="final")
+    vararray.text = str(" ".join(map(str, [x for x in final_edges.keys()])))
+
+
+
+
+
+    tree = ET.ElementTree(root)
+    tree.write(output_filename, encoding="utf-8", xml_declaration=True)
+
+    with open(output_filename, "r") as f:
+        lines = f.readlines()
+
+    with open(output_filename, "w") as f:
+        for ligne in lines:
+            if ligne.startswith("<?xml"):
+                ligne = ligne.replace("?>", " standalone=\"no\"?>")
+                f.write(ligne + "\n")
+            else:
+                f.write(ligne + "\n")
+
+
+
+
 
 
 if __name__ == "__main__":
