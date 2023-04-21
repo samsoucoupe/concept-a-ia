@@ -1,3 +1,5 @@
+import json
+
 initial = [0,0]
 final = [4,0]
 possible_value=[[0,1,2,3,4,5],[0,1,2,3]]
@@ -108,10 +110,30 @@ def main(initial, final, possible_value):
 if __name__ == '__main__':
     states,xml_list=main(initial,final,possible_value)
 
-    with open('sceau_data.txt',"w") as f:
-        f.write(f"{xml_list[0]}")
-        for i in range(1,len(xml_list)):
-            f.write(f",{xml_list[i]}")
+    # with open('sceau_data.txt',"w") as f:
+    #     f.write(f"{xml_list[0]}")
+    #     for i in range(1,len(xml_list)):
+    #         f.write(f",{xml_list[i]}")
+
+#     cree un json avec initial = [0,0]
+#   final = [4,0]
+#   possible_value=[[0,1,2,3,4,5],[0,1,2,3]]
+#   name_nodes = ["S5","S3"]
+#    data = [xml_list]
+#     create json object
+    dico_data = {}
+    dico_data["initial"] = initial
+    dico_data["final"] = final
+    dico_data["possible_value"] = possible_value
+    dico_data["name_nodes"] = name_nodes
+    dico_data["data"] = xml_list
+    print(dico_data)
+
+    o_json = json.dumps(dico_data)
+
+    with open('sceau_data.json', 'w') as f:
+        f.write(o_json)
+
 
 
 
