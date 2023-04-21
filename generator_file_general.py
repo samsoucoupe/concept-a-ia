@@ -1,8 +1,15 @@
+import json
 import sys
 import xml.etree.ElementTree as ET
-def main(name):
+def main(name,test=False):
+        if test:name="test"
         lien_xml=f"{name}.xml"
-        lien_data=f"{name}_data.txt"
+        lien_data=f"{name}_data.json"
+
+
+        # ouvrir le fichier data.json
+        d=open(lien_data)
+        donnee=json.load(d)
 
         # Créer la racine du document XML
         root = ET.Element("instance", format="Talos")
@@ -13,41 +20,52 @@ def main(name):
         valmatrix = ET.SubElement(values, "valmatrix", id="transitions")
 
 
-        # recupere data de lien_data
-        with open(lien_data,'r') as d:
-            data = [x for x in d.readlines()[0].split(",")]
-        print(data)
+        # recupere data du fichier json [data] a l'addrese lien data
+        initial=donnee["initial"]
+        final=donnee["final"]
+        data=donnee["data"]
+        node_name = donnee["name_nodes"]
+        possible_value=donnee["possible_value"]
+
+        print(initial)
+        print(final)
+        print(node_name)
+
+
         for row in data:
             ET.SubElement(valmatrix, "data").text = row
 
         # Ajouter les variables du document
         variables = ET.SubElement(root, "variables")
 
-        var = ET.SubElement(variables, "var", id="iS5")
-        var.text = "0"
-        var = ET.SubElement(variables, "var", id="iS3")
-        var.text = "0"
-        var = ET.SubElement(variables, "var", id="fS5")
-        var.text = "4"
-        var = ET.SubElement(variables, "var", id="fS3")
-        var.text = "0"
 
-        var = ET.SubElement(variables, "var", id="S5", type="int extensional")
-        var.text = "0 1 2 3 4 5"
-        var = ET.SubElement(variables, "var", id="S3", type="int extensional")
-        var.text = "0 1 2 3"
+        for i in range(len(node_name)):
+            var = ET.SubElement(variables, "var", id=f"i{node_name[i]}")
+            var.text = str(initial[i])
+        for i in range(len(node_name)):
+            var = ET.SubElement(variables, "var", id=f"f{node_name[i]}")
+            var.text = str(final[i])
+        for i in range(len(node_name)):
+            var = ET.SubElement(variables, "var", id=f"{node_name[i]}", type="int extensional")
+            var.text = str(" ".join(map(str, possible_value[i])))
+
+
+
+
 
         # Ajouter les variables du document
         variables = ET.SubElement(root, "variables")
 
         vararray = ET.SubElement(variables, "vararray", id="state")
-        vararray.text = "S5 S3"
+        vararray.text = str(" ".join(map(str,node_name)))
 
+        temp_node_name=["i"+x for x in node_name]
         vararray = ET.SubElement(variables, "vararray", id="initial")
-        vararray.text = "iS5 iS3"
+        vararray.text = str(" ".join(map(str,temp_node_name)))
 
+        temp_node_name = ["f" + x for x in node_name]
         vararray = ET.SubElement(variables, "vararray", id="final")
-        vararray.text = "fS5 fS3"
+        vararray.text = str(" ".join(map(str, temp_node_name)))
         # Générer le fichier XML
         tree = ET.ElementTree(root)
 
@@ -74,14 +92,18 @@ if __name__ == "__main__":
         sys.exit(1)
 
     name=None
+    test=False
 
     for i in range(1, len(sys.argv), 2):
         if sys.argv[i] == "-name":
             name = sys.argv[i+1]
-            main(name=name)
+        elif sys.argv[i] == "-t":
+            test=True
         else:
             print("Invalid argument. Use -name.")
             sys.exit(1)
+        if name is not None:
+            main(name=name, test=test)
 
 
 
