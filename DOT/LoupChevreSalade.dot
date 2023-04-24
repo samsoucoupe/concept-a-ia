@@ -1,6 +1,8 @@
 digraph LoupChevreSalade {
-	"L, C, S, B | " -> "L, S | C, B"
-	"C, B | L, S" -> " | L, C, S, B"
+	initial [label="L, C, S, B|" color=green shape=box]
+	final [label="|L, C, S, B" color=red shape=box]
+	initial -> "L, S | C, B"
+	"C, B | L, S" -> final
 	"L, S | C, B" -> "L, S, B | C"
 	"L, C, B | S" -> "C | L, S, B"
 	"L, C, B | S" -> "L | C, S, B"
@@ -10,7 +12,7 @@ digraph LoupChevreSalade {
 	"L, S, B | C" -> "L | C, S, B"
 	"L, S, B | C" -> "L, S | C, B"
 	"C, B | L, S" -> "C | L, S, B"
-	"L, S | C, B" -> "L, C, S, B | "
+	"L, S | C, B" -> initial
 	"C | L, S, B" -> "C, B | L, S"
 	"C | L, S, B" -> "C, S, B | L"
 	"C | L, S, B" -> "L, C, B | S"
@@ -18,5 +20,5 @@ digraph LoupChevreSalade {
 	"L | C, S, B" -> "L, S, B | C"
 	"S | L, C, B" -> "C, S, B | L"
 	"S | L, C, B" -> "L, S, B | C"
-	" | L, C, S, B" -> " | L, C, S, B"
+	final -> final
 }
