@@ -92,7 +92,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
         text_final = text_final[:-2]
         text_initial = f"{text_initial}|"
         text_final = f"|{text_final}"
-
+    # TODO: ameliorer l'affichage des noeuds de base
     dot_graph.node("initial", shape="box", color="green", label=f"{text_initial}")
     dot_graph.node("final", shape="box", color="red", label=f"{text_final}")
 
