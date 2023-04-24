@@ -391,7 +391,7 @@ if __name__ == "__main__":
         else:
             print("Invalid argument. Use -r, -type, -input, -output.")
             sys.exit(1)
-
+    print(f"in {input_filename} out {output_filename} type {operation} river {river}")
     if operation == "xtd":
         print("Converting XML to DOT...")
         print(f"Input file: {input_filename}")

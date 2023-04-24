@@ -9,5 +9,3 @@
 #python3 test/convertertest.py -r False -type dtx -input test/LoupChevreSalade.dot -output test/LoupChevreSalade.xml
 #java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver false -file test/LoupChevreSalade.xml
 
-
-python3 converter.py -r False -type xtd -input XML/zodice.xml -output DOT/zodice.dot ; dot -Tpng DOT/zodice.dot -o PNG/zodice.png
