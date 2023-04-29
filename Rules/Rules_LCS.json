@@ -1,0 +1,50 @@
+{
+    "element": {
+        "0": {
+            "name": "Loup",
+            "quantite": "0,1",
+            "incompatible": [
+                1
+            ],
+            "poids": 1.0
+        },
+        "1": {
+            "name": "Chevre",
+            "quantite": "0,1",
+            "incompatible": [
+                0,
+                2
+            ],
+            "poids": 1.0
+        },
+        "2": {
+            "name": "Salade",
+            "quantite": "0,1",
+            "incompatible": [
+                1
+            ],
+            "poids": 1.0
+        }
+    },
+    "info_problem": {
+        "type": "river",
+        "actions_possible": {
+            "vider": 0,
+            "remplir": 0,
+            "transferer": 0
+        },
+        "position_initial": [
+            1,
+            1,
+            1
+        ],
+        "position_final": [
+            0,
+            0,
+            0
+        ],
+        "boat_only": "True",
+        "boat_size": 1,
+        "regle_obligatoire": null
+    }
+}

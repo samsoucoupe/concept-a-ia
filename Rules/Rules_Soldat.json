@@ -1,0 +1,37 @@
+{
+  "element": {
+    "0": {
+      "name": "Enfant",
+      "quantite": "0,2",
+      "incompatible": [],
+      "poids": 0.5
+    },
+    "1": {
+      "name": "Soldat",
+      "quantite": "0,1",
+      "incompatible": [],
+      "poids": 1.0
+    }
+  },
+  "info_problem": {
+    "type": "river",
+    "actions_possible": {
+      "vider": 0,
+      "remplir": 0,
+      "transferer": 0
+    },
+    "position_initial": [
+      2,
+      1,
+      1
+    ],
+    "position_final": [
+      2,
+      0,
+      1
+    ],
+    "boat_only": "True",
+    "boat_size": 1,
+    "regle_obligatoire": null
+  }
+}
