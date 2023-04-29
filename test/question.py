@@ -1,4 +1,5 @@
 import json
+import os
 
 separateur = "----------------------------"
 actions = {"vider":0,"remplir":0,"transferer":0}
@@ -217,6 +218,9 @@ elif type_de_probleme=="sceau":
 
 print(liste_element)
 nom_fichier=input("Nom du fichier : ")
+pwd = os.getcwd()
+actual_folder = pwd.split("\\")[-1]
+pwd = pwd.replace(actual_folder,"Rules")
 # Ecriture du fichier json
-with open(f"{nom_fichier}.json", "w") as f:
+with open(f"{pwd}\{nom_fichier}.json", "w") as f:
     json.dump(liste_element, f, indent=4)
