@@ -112,7 +112,7 @@ def main(initial, final, possible_value):
 if __name__ == '__main__':
     states,xml_list=main(initial,final,possible_value)
     name_f="zodice"
-    xml_generator.generator(name=name_f,initial=initial,final=final,possible_value=possible_value,name_nodes=name_nodes,xml_list=xml_list)
+    xml_generator.generator(name=name_f,initial=initial,final=final,possible_value=possible_value,node_names=name_nodes,data=xml_list)
 
 
 

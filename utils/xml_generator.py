@@ -3,7 +3,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 
-def generator(name, initial=None, final=None, data=None, node_name=None, possible_value=None, test=False):
+def generator(name, initial=None, final=None, data=None, node_names=None, possible_value=None, test=False):
     lien_xml = f"../XML/{name}.xml"
 
     # Créer la racine du document XML
@@ -20,27 +20,27 @@ def generator(name, initial=None, final=None, data=None, node_name=None, possibl
     # Ajouter les variables du document
     variables = ET.SubElement(root, "variables")
 
-    for i in range(len(node_name)):
-        var = ET.SubElement(variables, "var", id=f"i{node_name[i]}")
+    for i in range(len(node_names)):
+        var = ET.SubElement(variables, "var", id=f"i{node_names[i]}")
         var.text = str(initial[i])
-    for i in range(len(node_name)):
-        var = ET.SubElement(variables, "var", id=f"f{node_name[i]}")
+    for i in range(len(node_names)):
+        var = ET.SubElement(variables, "var", id=f"f{node_names[i]}")
         var.text = str(final[i])
-    for i in range(len(node_name)):
-        var = ET.SubElement(variables, "var", id=f"{node_name[i]}", type="int extensional")
+    for i in range(len(node_names)):
+        var = ET.SubElement(variables, "var", id=f"{node_names[i]}", type="int extensional")
         var.text = str(" ".join(map(str, possible_value[i])))
 
     # Ajouter les variables du document
     variables = ET.SubElement(root, "variables")
 
     vararray = ET.SubElement(variables, "vararray", id="state")
-    vararray.text = str(" ".join(map(str, node_name)))
+    vararray.text = str(" ".join(map(str, node_names)))
 
-    temp_node_name = ["i" + x for x in node_name]
+    temp_node_name = ["i" + x for x in node_names]
     vararray = ET.SubElement(variables, "vararray", id="initial")
     vararray.text = str(" ".join(map(str, temp_node_name)))
 
-    temp_node_name = ["f" + x for x in node_name]
+    temp_node_name = ["f" + x for x in node_names]
     vararray = ET.SubElement(variables, "vararray", id="final")
     vararray.text = str(" ".join(map(str, temp_node_name)))
     # Générer le fichier XML
