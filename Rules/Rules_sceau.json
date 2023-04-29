@@ -1,0 +1,35 @@
+{
+    "element": {
+        "0": {
+            "name": "S5",
+            "quantite": "0,5",
+            "incompatible": ""
+        },
+        "1": {
+            "name": "S3",
+            "quantite": "0,3",
+            "incompatible": ""
+        }
+    },
+    "info_problem": {
+        "type": "sceau",
+        "actions_possible": {
+            "vider": 1,
+            "remplir": 1,
+            "transferer": 1
+        },
+        "position_initial": [
+            0,
+            0
+        ],
+        "position_final": [
+            4,
+            0
+        ],
+        "boat_only": "False",
+        "boat_size": 1,
+        "regle_obligatoire": null
+    }
+}
+
+
