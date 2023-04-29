@@ -51,9 +51,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
     dot_graph = Digraph(name)
     nodes = extract_nodes_from_xml(xml_root)
 
-
     name_nodes = [keys for keys in nodes.keys()]
-
 
     dico_states_de_base = extract_states_de_base(xml_root, nodes)
 
@@ -67,31 +65,45 @@ def xml_to_dot(xml_filename, dot_filename, river):
         text_final = ", ".join(map(str, text_final))
 
     else:
-        text_initial = ""
-        text_final = ""
+        text_initial_g = ""
+        text_initial_d = ""
+        text_final_g = ""
+        text_final_d = ""
         for i in range(len(name_nodes)):
             keys = name_nodes[i]
             value_node_i = nodes[keys][dico_states_de_base['initial'][i]]
             value_node_f = nodes[keys][dico_states_de_base['final'][i]]
+            valeur = nodes[keys][dico_states_de_base['initial'][i]]
 
             if value_node_i > 1:
-                text_initial += f"{value_node_i} {keys}, "
+                text_initial_g += f"{value_node_i} {keys}, "
+                if valeur > value_node_i:
+                    valeur = valeur - value_node_i
+                    text_initial_d += f"{valeur} {keys}, "
             elif value_node_i == 1:
-                text_initial += f"{keys}, "
+                text_initial_g += f"{keys}, "
+                if valeur > value_node_i:
+                    valeur = valeur - value_node_i
+                    text_initial_d += f"{valeur} {keys}, "
             else:
-                text_initial += f"{keys}, "
+                text_initial_d += f"{valeur} {keys}, "
 
             if value_node_f > 1:
-                text_final += f"{value_node_f} {keys}, "
+                text_final_g += f"{value_node_f} {keys}, "
+                if valeur > value_node_f:
+                    valeur = valeur - value_node_f
+                    text_final_d += f"{valeur} {keys}, "
             elif value_node_f == 1:
-                text_final += f"{keys}, "
+                text_final_g += f"{keys}, "
+                if valeur > value_node_f:
+                    valeur = valeur - value_node_f
+                    text_final_d += f"{valeur} {keys}, "
             else:
-                text_final += f"{keys}, "
+                text_final_d += f"{valeur} {keys}, "
 
-        text_initial = text_initial[:-2]
-        text_final = text_final[:-2]
-        text_initial = f"{text_initial}|"
-        text_final = f"|{text_final}"
+        text_initial = f"{text_initial_g} | {text_initial_d}"
+        text_final = f"{text_final_g} | {text_final_d}"
+
     # TODO: ameliorer l'affichage des noeuds de base
     dot_graph.node("initial", shape="box", color="green", label=f"{text_initial}")
     dot_graph.node("final", shape="box", color="red", label=f"{text_final}")
@@ -114,17 +126,23 @@ def xml_to_dot(xml_filename, dot_filename, river):
                 for i in range(len(nodes)):
                     keys = name_nodes[i]
                     value_node_i = initial_values[i]
+                    valeur = nodes[keys][dico_states_de_base['initial'][i]]
                     if value_node_i > 1:
                         initial_values_g += f"{value_node_i} {keys}, "
+                        if valeur > value_node_i:
+                            valeur = valeur - value_node_i
+                            initial_values_d += f"{valeur} {keys}, "
                     elif value_node_i == 1:
                         initial_values_g += f"{keys}, "
+                        if valeur > value_node_i:
+                            valeur = valeur - value_node_i
+                            initial_values_d += f"{valeur} {keys}, "
                     else:
-                        initial_values_d += f"{keys}, "
+                        initial_values_d += f"{valeur} {keys}, "
+
                 initial_values_g = initial_values_g[:-2]
                 initial_values_d = initial_values_d[:-2]
                 initial_values_str = f"{initial_values_g} | {initial_values_d}"
-
-
 
             if final_values == dico_states_de_base["final"]:
                 final_values_str = "final"
@@ -135,13 +153,22 @@ def xml_to_dot(xml_filename, dot_filename, river):
                 final_values_d = ""
                 for i in range(len(nodes)):
                     keys = name_nodes[i]
+                    valeur = nodes[keys][dico_states_de_base['initial'][i]]
                     value_node_f = final_values[i]
                     if value_node_f > 1:
                         final_values_g += f"{value_node_f} {keys}, "
+                        if valeur > value_node_f:
+                            valeur = valeur - value_node_f
+                            final_values_d += f"{valeur} {keys}, "
                     elif value_node_f == 1:
                         final_values_g += f"{keys}, "
+                        if valeur > value_node_f:
+                            valeur = valeur - value_node_f
+                            final_values_d += f"{valeur} {keys}, "
                     else:
-                        final_values_d += f"{keys}, "
+
+                        final_values_d += f"{valeur} {keys}, "
+
                 final_values_g = final_values_g[:-2]
                 final_values_d = final_values_d[:-2]
                 final_values_str = f"{final_values_g} | {final_values_d}"
@@ -188,11 +215,8 @@ def dot_to_xml(input_filename, output_filename):
         else:
             edges.append(line)
 
-
-
     initial_edges = {}
     final_edges = {}
-
 
     for node in edges:
 
@@ -202,7 +226,7 @@ def dot_to_xml(input_filename, output_filename):
         node_value = []
         if river == "True":
             node_part = node_data.split("|")
-            G= node_part[0].split(", ")
+            G = node_part[0].split(", ")
             D = node_part[1].split(", ")
 
             for part in G:
@@ -225,9 +249,8 @@ def dot_to_xml(input_filename, output_filename):
 
             node_part = node_data.split(", ")
             for part in node_part:
-                    edges_name.append(part.split(" : ")[0])
-                    node_value.append(part.split(" : ")[1])
-
+                edges_name.append(part.split(" : ")[0])
+                node_value.append(part.split(" : ")[1])
 
         if node_type == "initial":
             for i in range(len(edges_name)):
@@ -263,7 +286,6 @@ def dot_to_xml(input_filename, output_filename):
                         weight = I[I.index(edge_name)].split(" ")[0]
                         temp_data[i] = int(weight) if weight.isdigit() else 1
 
-
                 init = temp_data
             else:
                 init = list(map(int, init.strip("\"").split(", ")))
@@ -282,7 +304,6 @@ def dot_to_xml(input_filename, output_filename):
                         weight = F[F.index(edge_name)].split(" ")[0]
                         temp_data[i] = int(weight) if weight.isdigit() else 1
 
-
                 final = temp_data
             else:
                 final = list(map(int, final.strip("\"").split(", ")))
@@ -290,10 +311,7 @@ def dot_to_xml(input_filename, output_filename):
         value = " ".join(map(str, init + final))
         data.append(value)
 
-
-
-    
-    #de 0 au max de chaque noeud    [5,3,2] , [10,5,3] -> [[0...10],[0...5],[0...3]]
+    # de 0 au max de chaque noeud    [5,3,2] , [10,5,3] -> [[0...10],[0...5],[0...3]]
     max_possible = [0 for i in range(len(edges_name))]
     # on doit sortir le max de chaque noeud [5,3,2] , [10,5,3] -> [10,5,3]
     for i in range(len(data)):
@@ -301,7 +319,7 @@ def dot_to_xml(input_filename, output_filename):
             if int(data[i].split(" ")[j]) > max_possible[j]:
                 max_possible[j] = int(data[i].split(" ")[j])
 
-    valeur_possible = [[i for i in range(max_possible[j]+1)] for j in range(len(edges_name))]
+    valeur_possible = [[i for i in range(max_possible[j] + 1)] for j in range(len(edges_name))]
 
     #     ecriture du fichier xml
     root = ET.Element("root")
@@ -321,16 +339,16 @@ def dot_to_xml(input_filename, output_filename):
 
     for name in initial_edges:
         var = ET.SubElement(variables, "var", id=f"{name}")
-        var.text=str(initial_edges[name])
+        var.text = str(initial_edges[name])
 
     for name in final_edges:
         var = ET.SubElement(variables, "var", id=f"{name}")
-        var.text=str(final_edges[name])
+        var.text = str(final_edges[name])
 
     for i in range(len(edges_name)):
-        name=edges_name[i]
+        name = edges_name[i]
         var = ET.SubElement(variables, "var", id=f"{name}", type="int extensional")
-        possible=" ".join(map(str, valeur_possible[i]))
+        possible = " ".join(map(str, valeur_possible[i]))
         var.text = possible
 
     # Ajouter les variables du document
@@ -339,16 +357,11 @@ def dot_to_xml(input_filename, output_filename):
     vararray = ET.SubElement(variables, "vararray", id="state")
     vararray.text = str(" ".join(map(str, edges_name)))
 
-
     vararray = ET.SubElement(variables, "vararray", id="initial")
     vararray.text = str(" ".join(map(str, [x for x in initial_edges.keys()])))
 
     vararray = ET.SubElement(variables, "vararray", id="final")
     vararray.text = str(" ".join(map(str, [x for x in final_edges.keys()])))
-
-
-
-
 
     tree = ET.ElementTree(root)
     tree.write(output_filename, encoding="utf-8", xml_declaration=True)
@@ -363,10 +376,6 @@ def dot_to_xml(input_filename, output_filename):
                 f.write(ligne + "\n")
             else:
                 f.write(ligne + "\n")
-
-
-
-
 
 
 if __name__ == "__main__":
