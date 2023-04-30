@@ -86,7 +86,10 @@ def xml_to_dot(xml_filename, dot_filename, river):
                     valeur = valeur - value_node_i
                     text_initial_d += f"{valeur} {keys}, "
             else:
-                text_initial_d += f"{valeur} {keys}, "
+                if valeur==1 :
+                    text_initial_d += f"{keys}, "
+                else:
+                    text_initial_d += f"{valeur} {keys}, "
 
             if value_node_f > 1:
                 text_final_g += f"{value_node_f} {keys}, "
@@ -99,10 +102,18 @@ def xml_to_dot(xml_filename, dot_filename, river):
                     valeur = valeur - value_node_f
                     text_final_d += f"{valeur} {keys}, "
             else:
-                text_final_d += f"{valeur} {keys}, "
+                if valeur==1 :
+                    text_final_d += f"{keys}, "
+                else:
+                    text_final_d += f"{valeur} {keys}, "
 
+        text_initial_g = text_initial_g[:-2]
+        text_initial_d = text_initial_d[:-2]
+        text_final_g = text_final_g[:-2]
+        text_final_d = text_final_d[:-2]
         text_initial = f"{text_initial_g} | {text_initial_d}"
         text_final = f"{text_final_g} | {text_final_d}"
+
 
     # TODO: ameliorer l'affichage des noeuds de base
     dot_graph.node("initial", shape="box", color="green", label=f"{text_initial}")
@@ -138,7 +149,10 @@ def xml_to_dot(xml_filename, dot_filename, river):
                             valeur = valeur - value_node_i
                             initial_values_d += f"{valeur} {keys}, "
                     else:
-                        initial_values_d += f"{valeur} {keys}, "
+                        if valeur==1:
+                            initial_values_d += f"{keys}, "
+                        else:
+                            initial_values_d += f"{valeur} {keys}, "
 
                 initial_values_g = initial_values_g[:-2]
                 initial_values_d = initial_values_d[:-2]
@@ -166,8 +180,11 @@ def xml_to_dot(xml_filename, dot_filename, river):
                             valeur = valeur - value_node_f
                             final_values_d += f"{valeur} {keys}, "
                     else:
+                        if valeur != 1:
+                            final_values_d += f"{valeur} {keys}, "
+                        else:
+                            final_values_d += f"{keys}, "
 
-                        final_values_d += f"{valeur} {keys}, "
 
                 final_values_g = final_values_g[:-2]
                 final_values_d = final_values_d[:-2]
@@ -199,7 +216,7 @@ def dot_to_xml(input_filename, output_filename):
     with open(input_filename, "r") as f:
         dot_graph = f.readlines()
 
-    #     get the name of the graph
+    # get the name of the graph
     name = dot_graph[0].split(" ")[1].split(";")[0]
 
     dot_graph = dot_graph[1:-1]
@@ -261,10 +278,11 @@ def dot_to_xml(input_filename, output_filename):
 
     #     partie recuperation des data
     if river == "True":
-        init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]
-        final_convert = [int(final_edges[key]) for key in final_edges.keys()]
+
+        init_convert = [int(initial_edges[key]) for key in initial_edges.keys() if initial_edges[key] != ""]
+        final_convert = [int(final_edges[key]) for key in final_edges.keys() if final_edges[key] != ""]
     else:
-        init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]
+        init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]#dict_keys(['iL', 'iC', 'iS', 'iB']) dict_keys(['iL', 'iC', 'iS', 'iB', 'i'])
         final_convert = [int(final_edges[key]) for key in final_edges.keys()]
 
     data = []
