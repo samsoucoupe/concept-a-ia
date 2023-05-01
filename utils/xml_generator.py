@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 
 def generator(name, initial=None, final=None, data=None, node_names=None, possible_value=None, test=False):
-    lien_xml = ../XML/{name}.xml"
+    lien_xml = name
 
     # Créer la racine du document XML
     root = ET.Element("instance", format="Talos")
