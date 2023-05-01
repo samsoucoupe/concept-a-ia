@@ -35,6 +35,7 @@
         ],
         "boat_only": "False",
         "boat_size": 1,
-        "regle_obligatoire": null
+        "regle_obligatoire": null,
+    "regle_traverser": null
     }
 }

@@ -30,8 +30,9 @@
       0,
       1
     ],
-    "boat_only": "True",
+    "boat_only": "False",
     "boat_size": 1,
-    "regle_obligatoire": null
+    "regle_obligatoire": null,
+    "regle_traverser": null
   }
 }

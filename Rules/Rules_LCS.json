@@ -36,15 +36,18 @@
         "position_initial": [
             1,
             1,
+            1,
             1
         ],
         "position_final": [
+            0,
             0,
             0,
             0
         ],
         "boat_only": "True",
         "boat_size": 1,
-        "regle_obligatoire": null
+        "regle_obligatoire": null,
+        "regle_traverser": null
     }
 }
