@@ -1,8 +1,8 @@
 {
     "element": {
         "0": {
-            "name": "S12",
-            "quantite": "0,12",
+            "name": "S5",
+            "quantite": "0,5",
             "incompatible": ""
         },
         "1": {
@@ -11,8 +11,8 @@
             "incompatible": ""
         },
         "2": {
-            "name": "S5",
-            "quantite": "0,5",
+            "name": "S12",
+            "quantite": "0,12",
             "incompatible": ""
         }
     },
@@ -24,14 +24,14 @@
             "transferer": 1
         },
         "position_initial": [
-            12,
             0,
-            0
+            0,
+            12
         ],
         "position_final": [
+            0,
             6,
-            6,
-            0
+            6
         ],
         "boat_only": "False",
         "boat_size": 1,
