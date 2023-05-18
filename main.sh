@@ -57,12 +57,13 @@ then
   python3 utils/converter.py -r true -type xtd --input XML/$variable.xml --output DOT/$variable/$variable.dot
   java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n $max -print 0 -resultsType 1 -crossingRiver true -file  XML/$variable.xml
   java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n $max -print 0 -resultsType 1 -crossingRiver false -file  XML/$variable.xml > TXT/$variable.txt
+  python3 utils/dot_solution.py $variable true
 else
   python3 utils/converter.py -r false -type xtd --input XML/$variable.xml --output DOT/$variable/$variable.dot
   java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n $max -print 0 -resultsType 1 -crossingRiver false -file  XML/$variable.xml > TXT/$variable.txt
+  python3 utils/dot_solution.py $variable false
 fi
 
-python3 utils/dot_solution.py $variable
 
 list=$(ls DOT/$variable)
 
