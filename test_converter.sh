@@ -1,7 +1,7 @@
 utils/Interface/Introduction.sh
 
 
-echo "Did you want to use the rules in the Rules folder (True or False):"
+echo "Do you want to use the rules in the Rules folder (True or False):"
 read use
 if [ $use = "True" ] || [ $use = "true" ]
 then
@@ -16,7 +16,7 @@ else
 fi
 
 echo "The problem is: $variable"
-echo "Enter if the problem is a river crossing problem (True or False):"
+echo "Is it a river problem ? (True or False):"
 read river
 if [ $river = "True" ] || [ $river = "true" ]
 then
