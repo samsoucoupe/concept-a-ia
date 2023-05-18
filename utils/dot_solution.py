@@ -1,10 +1,33 @@
-import json
+#  Copyright (c) 2023. Samy Ben dhiab All rights reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#   #
+#         http://www.apache.org/licenses/LICENSE-2.0
+#   #
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#   #
+#         http://www.apache.org/licenses/LICENSE-2.0
+#   #
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.
+
 import sys
 import xml.etree.ElementTree as ET
 
-import argparse
-from graphviz import Digraph, Source
-
+from graphviz import Digraph
 
 
 def extract_data_from_xml(xml_root):
@@ -45,7 +68,7 @@ def extract_states_de_base(xml_root, nodes):
     return dico_states_de_base
 
 
-def xml_to_dot(xml_filename, dot_filename, solutions,river):
+def xml_to_dot(xml_filename, dot_filename, solutions, river):
     tree = ET.parse(xml_filename)
     xml_root = tree.getroot()
 
@@ -106,9 +129,9 @@ def xml_to_dot(xml_filename, dot_filename, solutions,river):
     for num in range(len(solutions)):
         dot_graph = Digraph(name)
         dot_graph.concentrate = True
-        dot_graph.node("initial", shape="box",label=f"{text_initial}",color="green", style="filled")
-        dot_graph.node("final", shape="box",label=f"{text_final}",color="red", style="filled")
-        solution=solutions[num]
+        dot_graph.node("initial", shape="box", label=f"{text_initial}", color="green", style="filled")
+        dot_graph.node("final", shape="box", label=f"{text_final}", color="red", style="filled")
+        solution = solutions[num]
 
         for transition in valmatrix_data:
             initial_values = transition[:len(nodes)]
@@ -177,60 +200,54 @@ def xml_to_dot(xml_filename, dot_filename, solutions,river):
                 else:
                     final_values_str = ", ".join(map(str, final_values))
             trouve = False
-            for i in range(len(solution)-1):
-                if solution[i] == initial_values and solution[i+1] == final_values:
+            for i in range(len(solution) - 1):
+                if solution[i] == initial_values and solution[i + 1] == final_values:
                     # mettre en gras le lien
                     trouve = True
             if trouve:
-                dot_graph.edge(initial_values_str, final_values_str, penwidth="3",arrowhead="open")
+                dot_graph.edge(initial_values_str, final_values_str, penwidth="3", arrowhead="open")
             else:
-                dot_graph.edge(initial_values_str, final_values_str,arrowhead="open")
+                dot_graph.edge(initial_values_str, final_values_str, arrowhead="open")
 
-        with open(dot_filename+str(num+1)+".dot","w") as f:
+        with open(dot_filename + str(num + 1) + ".dot", "w") as f:
             f.write(dot_graph.source)
 
+
 def extract_solution(file_name="test.txt"):
-    file=open("TXT/"+file_name,"r")
-    lines=file.readlines()
+    file = open("TXT/" + file_name, "r")
+    lines = file.readlines()
     file.close()
     while not lines[0].startswith("Number of Solutions:"):
         lines.pop(0)
     lines.pop(0)
-    names=[]
-    data=lines[0].split("(")[1].split(")")[0].split(" ")[0:-1]
+    names = []
+    data = lines[0].split("(")[1].split(")")[0].split(" ")[0:-1]
 
     for elt in data:
-        nom=elt.split("=")[0]
+        nom = elt.split("=")[0]
         names.append(nom)
 
-    solution=[]
+    solution = []
     for lignes in lines:
-        data=lignes.replace(")",",").replace("(","").split(",")[0:-1]
-        temp_solution=[]
+        data = lignes.replace(")", ",").replace("(", "").split(",")[0:-1]
+        temp_solution = []
         for elt in data:
-            temp=[0 for i in range(len(names))]
-            temp_data=elt.split(" ")[0:-1]
+            temp = [0 for i in range(len(names))]
+            temp_data = elt.split(" ")[0:-1]
             for i in range(len(names)):
-                temp[i]=int(temp_data[i].split("=")[1])
+                temp[i] = int(temp_data[i].split("=")[1])
             temp_solution.append(temp)
 
         solution.append(temp_solution)
     return solution
 
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     print(sys.argv)
     name = sys.argv[1]
-    river= sys.argv[2]
+    river = sys.argv[2]
     input_filename = f"XML/{name}.xml"
     output_filename = f"DOT/{name}/{name}_Sol_"
 
-    data=extract_solution(name+".txt")
-    xml_to_dot(xml_filename=input_filename, dot_filename=output_filename, solutions=data,river=river)
-
-
-
-
-
-
+    data = extract_solution(name + ".txt")
+    xml_to_dot(xml_filename=input_filename, dot_filename=output_filename, solutions=data, river=river)

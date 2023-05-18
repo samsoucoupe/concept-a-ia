@@ -239,6 +239,8 @@ def dot_to_xml(input_filename, output_filename):
                 elif part == "":
                     edges_name.append(part)
                     node_value.append(0)
+                print(f"part : {part}")
+                print(node_value)
 
         else:
             node_part = node_data.split(", ")
@@ -251,23 +253,32 @@ def dot_to_xml(input_filename, output_filename):
                 initial_edges[f"i{edges_name[i]}"] = node_value[i]
         else:
             for i in range(len(edges_name)):
-
-                if node_value[i] == "0":
-                    final_edges[f"f{edges_name[i]}"] = int(initial_edges[f"i{edges_name[i]}"])
-                else:
+                print(f"node_value[i] : {node_value[i]}")
+                if river == "True":
                     final_edges[f"f{edges_name[i]}"] = int(node_value[i])
+                else:
+                    if node_value[i] == 0:
+                        final_edges[f"f{edges_name[i]}"] = int(initial_edges[f"i{edges_name[i]}"])
+                    else:
+                        final_edges[f"f{edges_name[i]}"] = int(node_value[i])
 
 
     #     partie recuperation des data
     if river == "True":
-
+        print(f"initial_edges : {initial_edges}")
+        print(f"final_edges : {final_edges}")
         init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]
         final_convert = [int(final_edges[key]) for key in final_edges.keys()]
+        print(f"init_convert : {init_convert}")
+        print(f"final_convert : {final_convert}")
 
     else:
+        print(f"initial_edges : {initial_edges}")
+        print(f"final_edges : {final_edges}")
         init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]#dict_keys(['iL', 'iC', 'iS', 'iB']) dict_keys(['iL', 'iC', 'iS', 'iB', 'i'])
         final_convert = [int(final_edges[key]) for key in final_edges.keys()]
-
+        print(f"init_convert : {init_convert}")
+        print(f"final_convert : {final_convert}")
     data = []
 
     for node in nodes:
@@ -278,15 +289,15 @@ def dot_to_xml(input_filename, output_filename):
         print(f"final : {final}")
 
         if "initial" in init:
+            print("initial in init")
             init = init_convert
         elif "final" in init:
+            print("final in init")
             init = final_convert
         else:
             initG = init.split("|")[0].strip("\"").split(", ")[:-1]
-
-
-
             if river == "True":
+
                 temp_data = [0] * len(edges_name)
                 name_pas_use = edges_name.copy()
                 for elt in initG:
@@ -310,8 +321,10 @@ def dot_to_xml(input_filename, output_filename):
                 init = list(map(int, init.strip("\"").split(", ")))
 
         if "final" in final:
+            print("final in final")
             final = final_convert
         elif "initial" in final:
+            print("initial in final")
             final = init_convert
         else:
             finalG = final.split("|")[0].strip("\"").split(", ")[:-1]

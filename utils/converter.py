@@ -1,8 +1,36 @@
+#  Copyright (c) 2023. Samy Ben dhiab All rights reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#   #
+#         http://www.apache.org/licenses/LICENSE-2.0
+#   #
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#   #
+#         http://www.apache.org/licenses/LICENSE-2.0
+#   #
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.
+
+
+import argparse
 import sys
 import xml.etree.ElementTree as ET
 
-import argparse
-from graphviz import Digraph, Source
+from graphviz import Digraph
+
 import xml_generator as xml_generator
 
 
@@ -84,7 +112,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
                     valeur = valeur - value_node_i
                     text_initial_d += f"{valeur} {keys}, "
             else:
-                if valeur==1 :
+                if valeur == 1:
                     text_initial_d += f"{keys}, "
                 else:
                     text_initial_d += f"{valeur} {keys}, "
@@ -95,11 +123,10 @@ def xml_to_dot(xml_filename, dot_filename, river):
                     valeur = valeur - value_node_f
                     text_final_d += f"{valeur} {keys}, "
             else:
-                if valeur==1 :
+                if valeur == 1:
                     text_final_d += f"{keys}, "
                 else:
                     text_final_d += f"{valeur} {keys}, "
-
 
         text_initial = f"{text_initial_g}|{text_initial_d}"
         text_final = f"{text_final_g}|{text_final_d}"
@@ -131,12 +158,11 @@ def xml_to_dot(xml_filename, dot_filename, river):
                             valeur = valeur - value_node_i
                             initial_values_d += f"{valeur} {keys}, "
                     else:
-                        if valeur==1 :
+                        if valeur == 1:
                             initial_values_d += f"{keys}, "
                         else:
                             initial_values_d += f"{valeur} {keys}, "
                 initial_values_str = f"{initial_values_g}|{initial_values_d}"
-
 
             if final_values == dico_states_de_base["final"]:
                 final_values_str = "final"
@@ -149,17 +175,16 @@ def xml_to_dot(xml_filename, dot_filename, river):
                     keys = name_nodes[i]
                     valeur = nodes[keys][dico_states_de_base['initial'][i]]
                     value_node_f = final_values[i]
-                    if value_node_f >0:
+                    if value_node_f > 0:
                         final_values_g += f"{value_node_f} {keys}, "
                         if valeur > value_node_f:
                             valeur = valeur - value_node_f
                             final_values_d += f"{valeur} {keys}, "
                     else:
-                        if valeur==1 :
+                        if valeur == 1:
                             final_values_d += f"{keys}, "
                         else:
                             final_values_d += f"{valeur} {keys}, "
-
 
                 final_values_str = f"{final_values_g}|{final_values_d}"
 
@@ -177,8 +202,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
                 final_values_str = "final"
             else:
                 final_values_str = ", ".join(map(str, final_values))
-        dot_graph.edge(initial_values_str, final_values_str,arrowhead="open")
-
+        dot_graph.edge(initial_values_str, final_values_str, arrowhead="open")
 
     with open(dot_filename, "w") as f:
         f.write(dot_graph.source)
@@ -216,8 +240,8 @@ def dot_to_xml(input_filename, output_filename):
             node_part = node_data.split("|")
             G = node_part[0].split(", ")
             D = node_part[1].split(", ")
-            G=G[:-1]
-            D=D[:-1]
+            G = G[:-1]
+            D = D[:-1]
             for part in G:
                 if " " in part:
                     edges_name.append(part.split(" ")[1])
@@ -258,7 +282,6 @@ def dot_to_xml(input_filename, output_filename):
                     else:
                         final_edges[f"f{edges_name[i]}"] = int(node_value[i])
 
-
     #     partie recuperation des data
     if river == "true":
 
@@ -268,7 +291,8 @@ def dot_to_xml(input_filename, output_filename):
 
     else:
 
-        init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]#dict_keys(['iL', 'iC', 'iS', 'iB']) dict_keys(['iL', 'iC', 'iS', 'iB', 'i'])
+        init_convert = [int(initial_edges[key]) for key in
+                        initial_edges.keys()]  # dict_keys(['iL', 'iC', 'iS', 'iB']) dict_keys(['iL', 'iC', 'iS', 'iB', 'i'])
         final_convert = [int(final_edges[key]) for key in final_edges.keys()]
 
     data = []
@@ -276,7 +300,6 @@ def dot_to_xml(input_filename, output_filename):
     for node in nodes:
 
         init, final = node.split(" -> ")[0], node.split(" -> ")[1]
-
 
         if "initial" in init:
 
@@ -337,7 +360,6 @@ def dot_to_xml(input_filename, output_filename):
                 for manquant in name_pas_use:
                     temp_data[edges_name.index(manquant)] = 0
 
-
                 final = temp_data
             else:
                 final = list(map(int, final.strip("\"").split(", ")))
@@ -355,7 +377,10 @@ def dot_to_xml(input_filename, output_filename):
 
     valeur_possible = [[i for i in range(max_possible[j] + 1)] for j in range(len(edges_name))]
 
-    xml_generator.generator(name=output_filename,initial=init_convert,final=final_convert,data=data,node_names=edges_name,possible_value=valeur_possible)
+    xml_generator.generator(name=output_filename, initial=init_convert, final=final_convert, data=data,
+                            node_names=edges_name, possible_value=valeur_possible)
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
@@ -369,9 +394,6 @@ if __name__ == "__main__":
     operation = args.type
     input_filename = args.input
     output_filename = args.output
-
-
-
 
     print(f"in {input_filename} out {output_filename} type {operation} river {river}")
 
