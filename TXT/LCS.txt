@@ -1,0 +1,49 @@
+[97;45mThu, 18 May 2023 23:57:33 +0200[39;49m
+Number of variables in a state=4
+Generic state variables
+ExtensionalVariable: 716157500 Loup #2 {0 1}
+ExtensionalVariable: 716143810 Chevre #2 {0 1}
+ExtensionalVariable: 1849433705 Salade #2 {0 1}
+ExtensionalVariable: 411631404 B #2 {0 1}
+Table of tuples=TableOfTuples:#20
+[1, 1, 1, 1, 1, 0, 1, 0]
+[1, 0, 1, 0, 1, 0, 1, 1]
+[1, 0, 1, 0, 1, 1, 1, 1]
+[1, 0, 1, 1, 1, 0, 1, 0]
+[1, 0, 1, 1, 0, 0, 1, 0]
+[1, 0, 1, 1, 1, 0, 0, 0]
+[1, 0, 0, 0, 1, 1, 0, 1]
+[1, 0, 0, 0, 1, 0, 1, 1]
+[1, 1, 0, 1, 0, 1, 0, 0]
+[1, 1, 0, 1, 1, 0, 0, 0]
+[0, 1, 0, 0, 0, 1, 0, 1]
+[0, 1, 0, 0, 1, 1, 0, 1]
+[0, 1, 0, 0, 0, 1, 1, 1]
+[0, 1, 1, 1, 0, 0, 1, 0]
+[0, 1, 1, 1, 0, 1, 0, 0]
+[0, 0, 1, 0, 1, 0, 1, 1]
+[0, 0, 1, 0, 0, 1, 1, 1]
+[0, 1, 0, 1, 0, 1, 0, 0]
+[0, 1, 0, 1, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 0, 0]
+
+Parsing Time:                   63 ms
+Number of Solutions: 18
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )(Loup=0 Chevre=0 Salade=0 B=0 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )(Loup=0 Chevre=0 Salade=0 B=0 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=0 Chevre=0 Salade=1 B=0 )(Loup=0 Chevre=1 Salade=1 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
+(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=1 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=1 B=0 )(Loup=1 Chevre=0 Salade=1 B=1 )(Loup=1 Chevre=0 Salade=0 B=0 )(Loup=1 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=1 Salade=0 B=0 )(Loup=0 Chevre=1 Salade=0 B=1 )(Loup=0 Chevre=0 Salade=0 B=0 )
