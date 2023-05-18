@@ -1,5 +1,7 @@
 import sys
 import xml.etree.ElementTree as ET
+
+import argparse
 from graphviz import Digraph, Source
 import xml_generator as xml_generator
 
@@ -358,27 +360,21 @@ def dot_to_xml(input_filename, output_filename):
 
     xml_generator.generator(name=output_filename,initial=init_convert,final=final_convert,data=data,node_names=edges_name,possible_value=valeur_possible)
 if __name__ == "__main__":
-    if len(sys.argv) != 9:
-        print("Usage: python3 converter.py -r [True/False] -type [xtd/dtx] -input [input file] -output [output file]")
-        sys.exit(1)
 
-    river = None
-    operation = None
-    input_filename = None
-    output_filename = None
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-r", "--river", help="True if the graph is a river, False otherwise", required=True)
+    parser.add_argument("-type", "--type", help="Type of conversion (xtd or dtx)", required=True)
+    parser.add_argument("-i", "--input", help="Input file", required=True)
+    parser.add_argument("-o", "--output", help="Output file", required=True)
+    args = parser.parse_args()
 
-    for i in range(1, len(sys.argv), 2):
-        if sys.argv[i] == "-r":
-            river = sys.argv[i + 1]
-        elif sys.argv[i] == "-type":
-            operation = sys.argv[i + 1]
-        elif sys.argv[i] == "-input":
-            input_filename = sys.argv[i + 1]
-        elif sys.argv[i] == "-output":
-            output_filename = sys.argv[i + 1]
-        else:
-            print("Invalid argument. Use -r, -type, -input, -output.")
-            sys.exit(1)
+    river = args.river
+    operation = args.type
+    input_filename = args.input
+    output_filename = args.output
+
+
+
 
     print(f"in {input_filename} out {output_filename} type {operation} river {river}")
 
