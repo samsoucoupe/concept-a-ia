@@ -1,0 +1,42 @@
+{
+    "element": {
+        "0": {
+            "name": "Indien",
+            "quantite": "0,3",
+            "incompatible": "",
+            "poids": 0.5
+        },
+        "1": {
+            "name": "Americain",
+            "quantite": "0,3",
+            "incompatible": "",
+            "poids": 0.5
+        }
+    },
+    "info_problem": {
+        "type": "river",
+        "actions_possible": {
+            "vider": 1,
+            "remplir": 1,
+            "transferer": 1
+        },
+        "position_initial": [
+            3,
+            3,
+            1
+        ],
+        "position_final": [
+            0,
+            0,
+            0
+        ],
+        "boat_only": "False",
+        "boat_size": 1,
+        "regle_obligatoire": [
+            "EGALE",
+            "SUPERIEUR",
+            "1"
+        ],
+        "regle_traverser": null
+    }
+}

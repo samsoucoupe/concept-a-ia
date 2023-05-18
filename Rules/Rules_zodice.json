@@ -1,0 +1,41 @@
+{
+    "element": {
+        "0": {
+            "name": "S12",
+            "quantite": "0,12",
+            "incompatible": ""
+        },
+        "1": {
+            "name": "S6",
+            "quantite": "0,6",
+            "incompatible": ""
+        },
+        "2": {
+            "name": "S3",
+            "quantite": "0,3",
+            "incompatible": ""
+        }
+    },
+    "info_problem": {
+        "type": "sceau",
+        "actions_possible": {
+            "vider": 0,
+            "remplir": 1,
+            "transferer": 1
+        },
+        "position_initial": [
+            0,
+            0,
+            0
+        ],
+        "position_final": [
+            9,
+            0,
+            3
+        ],
+        "boat_only": "non",
+        "boat_size": 1,
+        "regle_obligatoire": null,
+        "regle_traverser": null
+    }
+}
