@@ -18,6 +18,11 @@ else
 fi
 
 echo "The problem is: $variable"
+
+#nombre de coup max pour la solution
+echo "Enter the maximum number of moves for the solution:"
+read max
+
 echo "Is it a river problem ? (True or False):"
 read river
 if [ $river = "True" ] || [ $river = "true" ]
@@ -31,8 +36,40 @@ fi
 
 
 
-python3 utils/converter.py -r $river -type xtd -input XML/$variable.xml -output DOT/$variable.dot
-dot -Tpng DOT/$variable.dot -o PNG/$variable.png
-java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver $river -file  XML/$variable.xml
+mkdir -p PNG/$variable
+mkdir -p DOT/$variable
+
+
+rm -rf PNG/$variable/*
+rm -rf DOT/$variable/*
+
+
+
+
+
+# si river == false alors use tee
+# sinon use >
+#
+
+
+if [ $river = "True" ] || [ $river = "true" ]
+then
+  python3 utils/converter.py -r true -type xtd --input XML/$variable.xml --output DOT/$variable/$variable.dot
+  java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n $max -print 0 -resultsType 1 -crossingRiver true -file  XML/$variable.xml
+  java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n $max -print 0 -resultsType 1 -crossingRiver false -file  XML/$variable.xml > TXT/$variable.txt
+else
+  python3 utils/converter.py -r false -type xtd --input XML/$variable.xml --output DOT/$variable/$variable.dot
+  java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n $max -print 0 -resultsType 1 -crossingRiver false -file  XML/$variable.xml > TXT/$variable.txt
+fi
+
+python3 utils/dot_solution.py $variable
+
+list=$(ls DOT/$variable)
+
+for i in $list
+do
+  dot -Tpng DOT/$variable/$i -o PNG/$variable/$i.png
+done
+
 
 utils/Interface/Conclution.sh
