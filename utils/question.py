@@ -1,7 +1,24 @@
 import json
-import os
+import os,sys
 
 import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--file", help="name of the file to create")
+# show help if no args
+if len(sys.argv)==1:
+    parser.print_help(sys.stderr)
+    sys.exit(1)
+args = parser.parse_args()
+nom_fichier=args.file
+if nom_fichier==None:
+    nom_fichier="test.json"
+nom_fichier="Rules_"+nom_fichier
+pwd = os.getcwd()
+folder="Talos/java"
+java_index = pwd.find(folder)
+actual_folder = pwd[:java_index+len(folder)]
+pwd = actual_folder+"/Rules/"
 
 separateur = "----------------------------"
 actions = {"vider":0,"remplir":0,"transferer":0}
@@ -218,14 +235,11 @@ elif type_de_probleme=="sceau":
         final.append(int(quantite))
     liste_element["info_problem"]["position_final"]=final
 #TODO : ajout les dernier regle_obligatoire et regle_traverser
-parser = argparse.ArgumentParser()
-parser.add_argument("--nom_fichier", help="nom du fichier json",delfault="test")
-args = parser.parse_args()
-print(liste_element)
-nom_fichier=args.nom_fichier
-pwd = os.getcwd()
-actual_folder = pwd.split("\\")[-1]
-pwd = pwd.replace(actual_folder,"Rules")
+
+if type_de_probleme=="river":pass
+
+
 # Ecriture du fichier json
-with open(f"{pwd}\{nom_fichier}.json", "w") as f:
+with open(f"{pwd}{nom_fichier}.json", "w") as f:
     json.dump(liste_element, f, indent=4)
+
