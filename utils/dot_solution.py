@@ -45,7 +45,7 @@ def extract_states_de_base(xml_root, nodes):
     return dico_states_de_base
 
 
-def xml_to_dot(xml_filename, dot_filename, solutions):
+def xml_to_dot(xml_filename, dot_filename, solutions,river):
     tree = ET.parse(xml_filename)
     xml_root = tree.getroot()
 
@@ -59,62 +59,122 @@ def xml_to_dot(xml_filename, dot_filename, solutions):
 
     dico_states_de_base = extract_states_de_base(xml_root, nodes)
 
+    if river != "true":
+        text_initial = [f"{name_nodes[i]} : {nodes[name_nodes[i]][dico_states_de_base['initial'][i]]}" for i in
+                        range(len(name_nodes))]
+        text_initial = ", ".join(map(str, text_initial))
+        text_final = [f"{name_nodes[i]} : {nodes[name_nodes[i]][dico_states_de_base['final'][i]]}" for i in
+                      range(len(name_nodes))]
+        text_final = ", ".join(map(str, text_final))
 
-    text_initial_g = ""
-    text_initial_d = ""
-    text_final_g = ""
-    text_final_d = ""
-    for i in range(len(name_nodes)):
-        keys = name_nodes[i]
-        value_node_i = nodes[keys][dico_states_de_base['initial'][i]]
-        value_node_f = nodes[keys][dico_states_de_base['final'][i]]
-        valeur = nodes[keys][dico_states_de_base['initial'][i]]
+    else:
+        text_initial_g = ""
+        text_initial_d = ""
+        text_final_g = ""
+        text_final_d = ""
+        for i in range(len(name_nodes)):
+            keys = name_nodes[i]
+            value_node_i = nodes[keys][dico_states_de_base['initial'][i]]
+            value_node_f = nodes[keys][dico_states_de_base['final'][i]]
+            valeur = nodes[keys][dico_states_de_base['initial'][i]]
 
-        if value_node_i > 0:
-            text_initial_g += f"{value_node_i} {keys}, "
-            if valeur > value_node_i:
-                valeur = valeur - value_node_i
-                text_initial_d += f"{valeur} {keys}, "
-        else:
-            if valeur == 1:
-                text_initial_d += f"{keys}, "
+            if value_node_i > 0:
+                text_initial_g += f"{value_node_i} {keys}, "
+                if valeur > value_node_i:
+                    valeur = valeur - value_node_i
+                    text_initial_d += f"{valeur} {keys}, "
             else:
-                text_initial_d += f"{valeur} {keys}, "
+                if valeur == 1:
+                    text_initial_d += f"{keys}, "
+                else:
+                    text_initial_d += f"{valeur} {keys}, "
 
-        if value_node_f > 0:
-            text_final_g += f"{value_node_f} {keys}, "
-            if valeur > value_node_f:
-                valeur = valeur - value_node_f
-                text_final_d += f"{valeur} {keys}, "
-        else:
-            if valeur == 1:
-                text_final_d += f"{keys}, "
+            if value_node_f > 0:
+                text_final_g += f"{value_node_f} {keys}, "
+                if valeur > value_node_f:
+                    valeur = valeur - value_node_f
+                    text_final_d += f"{valeur} {keys}, "
             else:
-                text_final_d += f"{valeur} {keys}, "
+                if valeur == 1:
+                    text_final_d += f"{keys}, "
+                else:
+                    text_final_d += f"{valeur} {keys}, "
 
-    text_initial = f"{text_initial_g}|{text_initial_d}"
-    text_final = f"{text_final_g}|{text_final_d}"
+        text_initial = f"{text_initial_g}|{text_initial_d}"
+        text_final = f"{text_final_g}|{text_final_d}"
 
     for num in range(len(solutions)):
         dot_graph = Digraph(name)
         dot_graph.node("initial", shape="box", color="green", label=f"{text_initial}")
         dot_graph.node("final", shape="box", color="red", label=f"{text_final}")
         solution=solutions[num]
+
         for transition in valmatrix_data:
             initial_values = transition[:len(nodes)]
             final_values = transition[len(nodes):]
-            if initial_values == dico_states_de_base["initial"]:
-                initial_values_str = "initial"
-            elif initial_values == dico_states_de_base["final"]:
-                initial_values_str = "final"
+            if river == "true":
+
+                # prendre la valeurs et si elle est differentes de 1 on affiche le nombre + l'id du noeud sinon on affiche l'id du noeud
+
+                if initial_values == dico_states_de_base["initial"]:
+                    initial_values_str = "initial"
+                elif initial_values == dico_states_de_base["final"]:
+                    initial_values_str = "final"
+                else:
+                    initial_values_g = ""
+                    initial_values_d = ""
+                    for i in range(len(nodes)):
+                        keys = name_nodes[i]
+                        value_node_i = initial_values[i]
+                        valeur = nodes[keys][dico_states_de_base['initial'][i]]
+                        if value_node_i > 0:
+                            initial_values_g += f"{value_node_i} {keys}, "
+                            if valeur > value_node_i:
+                                valeur = valeur - value_node_i
+                                initial_values_d += f"{valeur} {keys}, "
+                        else:
+                            if valeur == 1:
+                                initial_values_d += f"{keys}, "
+                            else:
+                                initial_values_d += f"{valeur} {keys}, "
+                    initial_values_str = f"{initial_values_g}|{initial_values_d}"
+
+                if final_values == dico_states_de_base["final"]:
+                    final_values_str = "final"
+                elif final_values == dico_states_de_base["initial"]:
+                    final_values_str = "initial"
+                else:
+                    final_values_g = ""
+                    final_values_d = ""
+                    for i in range(len(nodes)):
+                        keys = name_nodes[i]
+                        valeur = nodes[keys][dico_states_de_base['initial'][i]]
+                        value_node_f = final_values[i]
+                        if value_node_f > 0:
+                            final_values_g += f"{value_node_f} {keys}, "
+                            if valeur > value_node_f:
+                                valeur = valeur - value_node_f
+                                final_values_d += f"{valeur} {keys}, "
+                        else:
+                            if valeur == 1:
+                                final_values_d += f"{keys}, "
+                            else:
+                                final_values_d += f"{valeur} {keys}, "
+
+                    final_values_str = f"{final_values_g}|{final_values_d}"
             else:
-                initial_values_str = ", ".join(map(str, initial_values))
-            if final_values == dico_states_de_base["initial"]:
-                final_values_str = "initial"
-            elif final_values == dico_states_de_base["final"]:
-                final_values_str = "final"
-            else:
-                final_values_str = ", ".join(map(str, final_values))
+                if initial_values == dico_states_de_base["initial"]:
+                    initial_values_str = "initial"
+                elif initial_values == dico_states_de_base["final"]:
+                    initial_values_str = "final"
+                else:
+                    initial_values_str = ", ".join(map(str, initial_values))
+                if final_values == dico_states_de_base["initial"]:
+                    final_values_str = "initial"
+                elif final_values == dico_states_de_base["final"]:
+                    final_values_str = "final"
+                else:
+                    final_values_str = ", ".join(map(str, final_values))
             trouve = False
             for i in range(len(solution)-1):
                 if solution[i] == initial_values and solution[i+1] == final_values:
@@ -159,12 +219,14 @@ def extract_solution(file_name="test.txt"):
 
 
 if __name__=="__main__":
+    print(sys.argv)
     name = sys.argv[1]
+    river= sys.argv[2]
     input_filename = f"XML/{name}.xml"
     output_filename = f"DOT/{name}/{name}_Sol_"
 
     data=extract_solution(name+".txt")
-    xml_to_dot(xml_filename=input_filename, dot_filename=output_filename, solutions=data)
+    xml_to_dot(xml_filename=input_filename, dot_filename=output_filename, solutions=data,river=river)
 
 
 
