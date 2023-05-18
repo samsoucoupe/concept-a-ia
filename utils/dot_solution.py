@@ -105,8 +105,9 @@ def xml_to_dot(xml_filename, dot_filename, solutions,river):
 
     for num in range(len(solutions)):
         dot_graph = Digraph(name)
-        dot_graph.node("initial", shape="box", color="green", label=f"{text_initial}")
-        dot_graph.node("final", shape="box", color="red", label=f"{text_final}")
+        dot_graph.concentrate = True
+        dot_graph.node("initial", shape="box",label=f"{text_initial}",color="green", style="filled")
+        dot_graph.node("final", shape="box",label=f"{text_final}",color="red", style="filled")
         solution=solutions[num]
 
         for transition in valmatrix_data:
@@ -181,9 +182,9 @@ def xml_to_dot(xml_filename, dot_filename, solutions,river):
                     # mettre en gras le lien
                     trouve = True
             if trouve:
-                dot_graph.edge(initial_values_str, final_values_str, penwidth="3")
+                dot_graph.edge(initial_values_str, final_values_str, penwidth="3",arrowhead="open")
             else:
-                dot_graph.edge(initial_values_str, final_values_str)
+                dot_graph.edge(initial_values_str, final_values_str,arrowhead="open")
 
         with open(dot_filename+str(num+1)+".dot","w") as f:
             f.write(dot_graph.source)

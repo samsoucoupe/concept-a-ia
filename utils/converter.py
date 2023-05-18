@@ -104,11 +104,8 @@ def xml_to_dot(xml_filename, dot_filename, river):
         text_initial = f"{text_initial_g}|{text_initial_d}"
         text_final = f"{text_final_g}|{text_final_d}"
 
-
-
-
-    dot_graph.node("initial", shape="box", color="green", label=f"{text_initial}")
-    dot_graph.node("final", shape="box", color="red", label=f"{text_final}")
+    dot_graph.node("initial", shape="box", label=f"{text_initial}", color="green", style="filled")
+    dot_graph.node("final", shape="box", label=f"{text_final}", color="red", style="filled")
 
     for transition in valmatrix_data:
         initial_values = transition[:len(nodes)]
@@ -165,7 +162,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
 
 
                 final_values_str = f"{final_values_g}|{final_values_d}"
-            dot_graph.edge(initial_values_str, final_values_str)
+
 
         else:
             if initial_values == dico_states_de_base["initial"]:
@@ -180,7 +177,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
                 final_values_str = "final"
             else:
                 final_values_str = ", ".join(map(str, final_values))
-            dot_graph.edge(initial_values_str, final_values_str)
+        dot_graph.edge(initial_values_str, final_values_str,arrowhead="open")
 
 
     with open(dot_filename, "w") as f:
