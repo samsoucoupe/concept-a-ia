@@ -57,7 +57,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
     dico_states_de_base = extract_states_de_base(xml_root, nodes)
 
     # add the base nodes with beautify names in box shape with color
-    if river != "True":
+    if river != "true":
         text_initial = [f"{name_nodes[i]} : {nodes[name_nodes[i]][dico_states_de_base['initial'][i]]}" for i in
                         range(len(name_nodes))]
         text_initial = ", ".join(map(str, text_initial))
@@ -111,7 +111,7 @@ def xml_to_dot(xml_filename, dot_filename, river):
     for transition in valmatrix_data:
         initial_values = transition[:len(nodes)]
         final_values = transition[len(nodes):]
-        if river == "True":
+        if river == "true":
 
             # prendre la valeurs et si elle est differentes de 1 on affiche le nombre + l'id du noeud sinon on affiche l'id du noeud
 
@@ -213,7 +213,7 @@ def dot_to_xml(input_filename, output_filename):
         node_data = node.split("label=")[1].split("\"")[1]
         edges_name = []
         node_value = []
-        if river == "True":
+        if river == "true":
             node_part = node_data.split("|")
             G = node_part[0].split(", ")
             D = node_part[1].split(", ")
@@ -239,8 +239,6 @@ def dot_to_xml(input_filename, output_filename):
                 elif part == "":
                     edges_name.append(part)
                     node_value.append(0)
-                print(f"part : {part}")
-                print(node_value)
 
         else:
             node_part = node_data.split(", ")
@@ -253,8 +251,7 @@ def dot_to_xml(input_filename, output_filename):
                 initial_edges[f"i{edges_name[i]}"] = node_value[i]
         else:
             for i in range(len(edges_name)):
-                print(f"node_value[i] : {node_value[i]}")
-                if river == "True":
+                if river == "true":
                     final_edges[f"f{edges_name[i]}"] = int(node_value[i])
                 else:
                     if node_value[i] == 0:
@@ -264,7 +261,7 @@ def dot_to_xml(input_filename, output_filename):
 
 
     #     partie recuperation des data
-    if river == "True":
+    if river == "true":
 
         init_convert = [int(initial_edges[key]) for key in initial_edges.keys()]
         final_convert = [int(final_edges[key]) for key in final_edges.keys()]
@@ -290,7 +287,7 @@ def dot_to_xml(input_filename, output_filename):
             init = final_convert
         else:
             initG = init.split("|")[0].strip("\"").split(", ")[:-1]
-            if river == "True":
+            if river == "true":
 
                 temp_data = [0] * len(edges_name)
                 name_pas_use = edges_name.copy()
@@ -323,7 +320,7 @@ def dot_to_xml(input_filename, output_filename):
         else:
             finalG = final.split("|")[0].strip("\"").split(", ")[:-1]
 
-            if river == "True":
+            if river == "true":
                 temp_data = [0] * len(edges_name)
                 name_pas_use = edges_name.copy()
                 for elt in finalG:
@@ -382,7 +379,9 @@ if __name__ == "__main__":
         else:
             print("Invalid argument. Use -r, -type, -input, -output.")
             sys.exit(1)
+
     print(f"in {input_filename} out {output_filename} type {operation} river {river}")
+
     if operation == "xtd":
         print("Converting XML to DOT...")
         print(f"Input file: {input_filename}")
@@ -391,6 +390,10 @@ if __name__ == "__main__":
 
         xml_to_dot(xml_filename=input_filename, dot_filename=output_filename, river=river)
     elif operation == "dtx":
+        print("Converting DOT to XML...")
+        print(f"Input file: {input_filename}")
+        print(f"Output file: {output_filename}")
+        print(f"River: {river}")
         dot_to_xml(input_filename, output_filename)
     else:
         print("Invalid operation. Use 'xtd' or 'dtx'.")
