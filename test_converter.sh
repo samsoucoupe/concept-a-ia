@@ -12,7 +12,9 @@ then
 else
   echo "Enter a name for the rules:"
   read variable
-  python3 utils/question.py --nom_fichier $variable
+  python3 utils/question.py nom_fichier $variable
+  python3 utils/generator.py --rulesfiles Rules/Rules_$variable.json --output XML/$variable.xml
+
 fi
 
 echo "The problem is: $variable"
@@ -28,9 +30,9 @@ else
 fi
 
 
-python3 utils/generator.py --rulesfiles Rules/Rules_$variable.json --output XML/test/$variable.xml
-python3 utils/converter.py -r $river -type xtd -input XML/test/$variable.xml -output DOT/test/$variable.dot
-dot -Tpng DOT/test/$variable.dot -o PNG/test/$variable.png
-java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver $river -file  XML/test/$variable.xml
+
+python3 utils/converter.py -r $river -type xtd -input XML/$variable.xml -output DOT/$variable.dot
+dot -Tpng DOT/$variable.dot -o PNG/$variable.png
+java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver $river -file  XML/$variable.xml
 
 utils/Interface/Conclution.sh
