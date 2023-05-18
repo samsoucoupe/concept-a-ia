@@ -12,11 +12,16 @@ def test_regle(init=[], state=[]):
     if regle_obligatoire is None:
         return True
 
-    EGALE = "EGALE" in regle_obligatoire
-    SUP = "SUP" in regle_obligatoire
-    if SUP:
-        ID_SUP = regle_obligatoire.split(" ")[1]
-        ID_SUP = int(ID_SUP)
+    for elt in regle_obligatoire:
+        if elt == "EGALE":
+            EGALE = True
+        elif elt == "SUPERIEUR":
+            SUP = True
+        else:
+            if elt.isdigit():
+                ID_SUP = int(elt)
+
+
 
     if EGALE and SUP:
         SupG = state[ID_SUP]
@@ -43,9 +48,8 @@ def test_regle(init=[], state=[]):
         for i in range(state_size):
             INFiG = state[i]
             INFiD = int(data["element"][str(i)]["quantite"].split(",")[1]) - state[i]
-            if INFiG > SupG or INFiD > SupD:
+            if (INFiG >= SupG and SupG != 0) or (INFiD >= SupD and SupD != 0):
                 return False
-
         return True
 
 
@@ -60,7 +64,6 @@ def test_compatibilite(state=[]):
             if int(data["element"][str(i)]["quantite"].split(",")[1]) - state[i] > 0 and int(
                     data["element"][str(j)]["quantite"].split(",")[1]) - state[j] > 0 and state[-1] == 1:
                 return True
-
     return False
 
 
@@ -169,7 +172,7 @@ def generate_variation(state, possible_value, actual_transition_list=[], final=[
         max_diff = -1
         if boat_size == 0:
             return []
-        if data["info_problem"]["regle_traverser"] is not None:
+        if data["info_problem"]["regle_traverser"] != "":
             if "DC" in data["info_problem"]["regle_traverser"]:
                 max_diff = int(data["info_problem"]["regle_traverser"].split(" ")[0])
                 print(f"max_diff {max_diff}")
