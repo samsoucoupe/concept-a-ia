@@ -16,9 +16,9 @@
     "info_problem": {
         "type": "river",
         "actions_possible": {
-            "vider": 1,
-            "remplir": 1,
-            "transferer": 1
+            "vider": 0,
+            "remplir": 0,
+            "transferer": 0
         },
         "position_initial": [
             3,
@@ -32,11 +32,13 @@
         ],
         "boat_only": "False",
         "boat_size": 1,
+        "solution_max": 10,
         "regle_obligatoire": [
             "EGALE",
             "SUPERIEUR",
             "1"
         ],
-        "regle_traverser": null
+        "regle_traverser": "",
+        "max_solution": 12
     }
 }
