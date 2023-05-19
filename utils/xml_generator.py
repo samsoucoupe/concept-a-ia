@@ -24,17 +24,7 @@
 #     See the License for the specific language governing permissions and
 #     limitations under the License.
 #
-#    Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
-#    You may obtain a copy of the License at
-#   #
-#         http://www.apache.org/licenses/LICENSE-2.0
-#   #
-#     Unless required by applicable law or agreed to in writing, software
-#     distributed under the License is distributed on an "AS IS" BASIS,
-#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#     See the License for the specific language governing permissions and
-#     limitations under the License.
+
 
 import sys
 import xml.etree.ElementTree as ET
@@ -56,7 +46,6 @@ def generator(name, initial=None, final=None, data=None, node_names=None, possib
 
     # Ajouter les variables du document
     variables = ET.SubElement(root, "variables")
-    print(node_names)
     for i in range(len(node_names)):
         var = ET.SubElement(variables, "var", id=f"i{node_names[i]}")
         var.text = str(initial[i])
@@ -84,7 +73,6 @@ def generator(name, initial=None, final=None, data=None, node_names=None, possib
     tree = ET.ElementTree(root)
 
     tree.write(lien_xml, encoding="utf-8", xml_declaration=True)
-    print("Done")
 
     # ajouter standalone="no" dans la ligne xml_declaration=True pour générer un fichier valide
     lignes = []
