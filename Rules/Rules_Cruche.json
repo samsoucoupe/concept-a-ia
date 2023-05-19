@@ -1,41 +1,42 @@
 {
-    "element": {
-        "0": {
-            "name": "S5",
-            "quantite": "0,5",
-            "incompatible": ""
-        },
-        "1": {
-            "name": "S8",
-            "quantite": "0,8",
-            "incompatible": ""
-        },
-        "2": {
-            "name": "S12",
-            "quantite": "0,12",
-            "incompatible": ""
-        }
+  "element": {
+    "0": {
+      "name": "S5",
+      "quantite": "0,5",
+      "incompatible": ""
     },
-    "info_problem": {
-        "type": "sceau",
-        "actions_possible": {
-            "vider": 0,
-            "remplir": 0,
-            "transferer": 1
-        },
-        "position_initial": [
-            0,
-            0,
-            12
-        ],
-        "position_final": [
-            0,
-            6,
-            6
-        ],
-        "boat_only": "False",
-        "boat_size": 1,
-        "regle_obligatoire": [],
-    "regle_traverser": ""
+    "1": {
+      "name": "S8",
+      "quantite": "0,8",
+      "incompatible": ""
+    },
+    "2": {
+      "name": "S12",
+      "quantite": "0,12",
+      "incompatible": ""
     }
+  },
+  "info_problem": {
+    "type": "sceau",
+    "actions_possible": {
+      "vider": 0,
+      "remplir": 0,
+      "transferer": 1
+    },
+    "position_initial": [
+      0,
+      0,
+      12
+    ],
+    "position_final": [
+      0,
+      6,
+      6
+    ],
+    "boat_only": "False",
+    "boat_size": 1,
+    "solution_max": 10,
+    "regle_obligatoire": [],
+    "regle_traverser": ""
+  }
 }

@@ -32,6 +32,7 @@
     ],
     "boat_only": "False",
     "boat_size": 1,
+    "solution_max": 10,
     "regle_obligatoire": [],
     "regle_traverser": ""
   }
