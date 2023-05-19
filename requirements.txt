@@ -1,3 +1,2 @@
-graphviz == 0.20.1
-argparse == 1.4.0
-
+graphviz==0.20.1
+argparse==1.4.0
