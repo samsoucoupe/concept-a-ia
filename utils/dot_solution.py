@@ -17,24 +17,7 @@
 #    You may obtain a copy of the License at
 #   #
 #         http://www.apache.org/licenses/LICENSE-2.0
-#   #
-#     Unless required by applicable law or agreed to in writing, software
-#     distributed under the License is distributed on an "AS IS" BASIS,
-#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#     See the License for the specific language governing permissions and
-#     limitations under the License.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
-#    You may obtain a copy of the License at
-#   #
-#         http://www.apache.org/licenses/LICENSE-2.0
-#   #
-#     Unless required by applicable law or agreed to in writing, software
-#     distributed under the License is distributed on an "AS IS" BASIS,
-#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#     See the License for the specific language governing permissions and
-#     limitations under the License.
+
 
 import sys
 import xml.etree.ElementTree as ET
@@ -255,11 +238,13 @@ def extract_solution(file_name="test.txt"):
 
 
 if __name__ == "__main__":
-    print(sys.argv)
     name = sys.argv[1]
     river = sys.argv[2]
     input_filename = f"XML/{name}.xml"
-    output_filename = f"DOT/{name}/{name}_Sol_"
-
+    if river == "true":
+        output_filename = f"DOT/{name}_River/{name}_Sol_"
+        name = name + "_River"
+    else:
+        output_filename = f"DOT/{name}/{name}_Sol_"
     data = extract_solution(name + ".txt")
     xml_to_dot(xml_filename=input_filename, dot_filename=output_filename, solutions=data, river=river)
