@@ -17,24 +17,7 @@
 #    You may obtain a copy of the License at
 #   #
 #         http://www.apache.org/licenses/LICENSE-2.0
-#   #
-#     Unless required by applicable law or agreed to in writing, software
-#     distributed under the License is distributed on an "AS IS" BASIS,
-#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#     See the License for the specific language governing permissions and
-#     limitations under the License.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
-#    You may obtain a copy of the License at
-#   #
-#         http://www.apache.org/licenses/LICENSE-2.0
-#   #
-#     Unless required by applicable law or agreed to in writing, software
-#     distributed under the License is distributed on an "AS IS" BASIS,
-#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#     See the License for the specific language governing permissions and
-#     limitations under the License.
+
 
 import argparse
 import json
@@ -45,9 +28,11 @@ import xml_generator as xml_generator
 def test_regle(init=[], state=[]):
     state_size = len(state) - 1
     regle_obligatoire = data["info_problem"]["regle_obligatoire"]
-    if regle_obligatoire is None:
+    if regle_obligatoire == []:
         return True
-
+    EGALE = False
+    SUP = False
+    ID_SUP = 0
     for elt in regle_obligatoire:
         if elt == "EGALE":
             EGALE = True
@@ -156,29 +141,31 @@ def generate_variation(state, possible_value, actual_transition_list=[], final=[
         return new_state
 
     def changer_rive(state, boat_size=boat_size, move_solo=boat_only):
-        print(f"state {state} boat_size {boat_size} move_solo {move_solo} de changer_rive")
 
         def all_transition_mais_sans_changer_rive(state=[], poids=1, rive_actuelle=1, state_init=[], max_diff=-1):
             if max_diff != -1:
                 for i in range(len(state) - 1):
                     if abs(state_init[i] - state[i]) > max_diff:
-                        print(f"on cut la branche {state_init} {state}")
+                        if verbose:
+                            print(f"on cut la branche {state_init} {state}")
                         return []
 
             if poids < 0:
-                print("c'est trop louurd")
+                if verbose:
+                    print("c'est trop louurd")
                 return []
             elif poids == 0:
-                print(f"c'est bon capacities atteinte avec {state}")
+                if verbose:
+                    print(f"c'est bon capacities atteinte avec {state}")
                 return [state.copy()]
 
             else:
                 variations = [state.copy()]
-                print(f"on a passser les conditions de base avec {state_init} => {state} {poids} {rive_actuelle}")
+                if verbose:
+                    print(f"on a passser les conditions de base avec {state_init} => {state} {poids} {rive_actuelle}")
                 new_state = state.copy()
                 for i in range(len(state) - 1):
                     size = float(data["element"][str(i)]["poids"])
-                    print(f"size de {i} est {size}")
                     new_state = state.copy()
 
                     if rive_actuelle == 1:
@@ -204,7 +191,6 @@ def generate_variation(state, possible_value, actual_transition_list=[], final=[
         if data["info_problem"]["regle_traverser"] != "":
             if "DC" in data["info_problem"]["regle_traverser"]:
                 max_diff = int(data["info_problem"]["regle_traverser"].split(" ")[0])
-                print(f"max_diff {max_diff}")
 
         if move_solo:
             if state[-1] == 1:
@@ -266,7 +252,6 @@ def generate_variation(state, possible_value, actual_transition_list=[], final=[
 
 
         elif type_probleme == "river":
-            print(f"on va changer de rive {state}")
             new_thing = changer_rive(state)
             new_state.extend(new_thing)
 
@@ -278,19 +263,9 @@ def generate_variation(state, possible_value, actual_transition_list=[], final=[
                         actual_transition_list=temp_transition_list):
             valid_states.append(new_state[i])
             temp_transition_list.append(generate_transition_text(state, new_state[i]))
-    print(f"valid_states {valid_states} de new_state {new_state}")
+    if verbose:
+        print(f"valid_states {valid_states} de new_state {new_state}")
     return valid_states
-
-
-# def generate_states(states, possible_value, xml_list=[]):
-#     new_states = []
-#     for state in states:
-#         new_state = generate_variation(state=state, possible_value=possible_value, actual_transition_list=xml_list,
-#                                        final=final, init=initial)
-#         if new_state != []:
-#             xml_list += convert_to_xml_list(state, new_state)
-#             new_states += new_state
-#     return new_states, xml_list
 
 
 def main(initial, final, possible_value, type_probleme="sceau"):
@@ -315,12 +290,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--rulesfiles', type=str, default="Rules/Rules_LCS.json")
     parser.add_argument('-o', '--output', type=str, default="XML/output.xml")
+    parser.add_argument('-v', '--verbose', action='store_true')
 
     args = parser.parse_args()
     rulesfiles = args.rulesfiles
     output = args.output
-    print(f"rulesfiles {rulesfiles}")
-    print(f"output {output}")
+    verbose = args.verbose
+    if verbose:
+        print(f"rulesfiles {rulesfiles}")
+        print(f"output {output}")
     data = json.load(open(rulesfiles, "r"))
 
     # {'element': {'0': {'name': 'S12', 'quantite': '0,12', 'incompatible': ''}, '1': {'name': 'S8', 'quantite': '0,8', 'incompatible': ''}, '2': {'name': 'S5', 'quantite': '0,5', 'incompatible': ''}}, 'info_problem': {'type': 'sceau', 'actions_possible': {'vider': 0, 'remplir': 0, 'transferer': 0}, 'position_initial': [12, 0, 0], 'position_final': [6, 6, 0], 'boat_only': 'False', 'boat_size': 1, 'regle_obligatoire': None}}
@@ -360,10 +338,10 @@ if __name__ == '__main__':
     boat_size = data["info_problem"]["boat_size"]
 
     states, xml_list = main(initial, final, possible_value, type_probleme=type)
-
-    print(states)
-    print(xml_list)
-    print(len(xml_list))
+    if verbose:
+        print(states)
+        print(xml_list)
+        print(len(xml_list))
 
     xml_generator.generator(name=output, initial=initial, final=final, possible_value=possible_value,
                             node_names=name_nodes, data=xml_list)
