@@ -15,13 +15,12 @@
 #
 
 
-import argparse
 import sys
 import xml.etree.ElementTree as ET
 
 from graphviz import Digraph
 
-import xml_generator as xml_generator
+from . import xml_generator
 
 
 def extract_data_from_xml(xml_root):
@@ -372,18 +371,20 @@ def dot_to_xml(input_filename, output_filename):
 
 
 if __name__ == "__main__":
+    parametres = sys.argv
+    if len(parametres) != 5:
+        print("Usage: python3 main.py -r <river> -type <type> -i <input> -o <output>")
+        sys.exit(1)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-r", "--river", help="True if the graph is a river, False otherwise", required=True)
-    parser.add_argument("-type", "--type", help="Type of conversion (xtd or dtx)", required=True)
-    parser.add_argument("-i", "--input", help="Input file", required=True)
-    parser.add_argument("-o", "--output", help="Output file", required=True)
-    args = parser.parse_args()
-
-    river = args.river
-    operation = args.type
-    input_filename = args.input
-    output_filename = args.output
+    for i in range(1, len(parametres), 2):
+        if parametres[i] == "-r":
+            river = parametres[i + 1]
+        elif parametres[i] == "-type":
+            operation = parametres[i + 1]
+        elif parametres[i] == "-i":
+            input_filename = parametres[i + 1]
+        elif parametres[i] == "-o":
+            output_filename = parametres[i + 1]
 
     print(f"in {input_filename} out {output_filename} type {operation} river {river}")
 

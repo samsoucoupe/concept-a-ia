@@ -14,10 +14,10 @@
 #    limitations under the License.
 #
 
-import argparse
 import json
+import sys
 
-import xml_generator as xml_generator
+from . import xml_generator
 
 
 def test_regle(init=[], state=[]):
@@ -98,7 +98,7 @@ def convert_to_xml_list(current, variations):
 
 def valid_values(state, possible_value, init, actual_transition_list=[]):
     if len(state) == 0 or (generate_transition_text(init, state) in actual_transition_list) or (
-            state == init and state != final) or (test_compatibilite(state) and liste_imcomp != []):
+            state == init and state != final) or (test_compatibilite(state) and imcompatiblité != []):
         return False
     if not test_regle(init=init, state=state):
         return False
@@ -109,7 +109,8 @@ def valid_values(state, possible_value, init, actual_transition_list=[]):
     return True
 
 
-def generate_variation(state, possible_value, actual_transition_list=[], final=[], init=[], type_probleme="sceau"):
+def generate_variation(state, possible_value, actual_transition_list=[], final=[], init=[], type_probleme="sceau",
+                       verbose=False):
     # pour chaque noeud
     # on peut vider, remplir ou verser
     def vider(i):
@@ -263,7 +264,7 @@ def generate_variation(state, possible_value, actual_transition_list=[], final=[
     return valid_states
 
 
-def main(initial, final, possible_value, type_probleme="sceau"):
+def main(initial, final, possible_value, type_probleme="sceau", verbose=False):
     states = [initial]
     stack = [initial]
     xml_list = []
@@ -280,21 +281,8 @@ def main(initial, final, possible_value, type_probleme="sceau"):
     return states, xml_list
 
 
-if __name__ == '__main__':
-    # parser
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('--rulesfiles', type=str, default="Rules/Rules_LCS.json")
-    parser.add_argument('-o', '--output', type=str, default="XML/output.xml")
-    parser.add_argument('-v', '--verbose', action='store_true')
-
-    args = parser.parse_args()
-    rulesfiles = args.rulesfiles
-    output = args.output
-    verbose = args.verbose
-    if verbose:
-        print(f"rulesfiles {rulesfiles}")
-        print(f"output {output}")
-    data = json.load(open(rulesfiles, "r"))
+def extract_data_from_json(json_file):
+    data = json.load(open(json_file, "r"))
 
     # {'element': {'0': {'name': 'S12', 'quantite': '0,12', 'incompatible': ''}, '1': {'name': 'S8', 'quantite': '0,8', 'incompatible': ''}, '2': {'name': 'S5', 'quantite': '0,5', 'incompatible': ''}}, 'info_problem': {'type': 'sceau', 'actions_possible': {'vider': 0, 'remplir': 0, 'transferer': 0}, 'position_initial': [12, 0, 0], 'position_final': [6, 6, 0], 'boat_only': 'False', 'boat_size': 1, 'regle_obligatoire': None}}
     initial = data["info_problem"]["position_initial"]
@@ -332,11 +320,35 @@ if __name__ == '__main__':
     boat_only = data["info_problem"]["boat_only"] == "True"
     boat_size = data["info_problem"]["boat_size"]
 
-    states, xml_list = main(initial, final, possible_value, type_probleme=type)
-    if verbose:
-        print(states)
-        print(xml_list)
-        print(len(xml_list))
+    return initial, final, possible_value, name_nodes, max_boats, imcompatiblité, type, list_function, boat_only, boat_size, data
 
+
+def lauch(rulesfiles, output):
+    global initial, final, possible_value, name_nodes, max_boats, imcompatiblité, type, list_function, boat_only, boat_size, data
+    initial, final, possible_value, name_nodes, max_boats, imcompatiblité, type, list_function, boat_only, boat_size, data = extract_data_from_json(
+        rulesfiles)
+    states, xml_list = main(initial, final, possible_value, type_probleme=type)
     xml_generator.generator(name=output, initial=initial, final=final, possible_value=possible_value,
                             node_names=name_nodes, data=xml_list)
+
+
+if __name__ == '__main__':
+    # parser
+    parametre = sys.argv
+    if len(parametre) not in [5, 6]:
+        print("Usage : python3 main.py --rulesfiles <rulesfiles> --output <output> [--verbose]")
+        exit(1)
+    verbose = False
+    for i in range(1, len(parametre)):
+        if parametre[i] == "--rulesfiles":
+            rulesfiles = parametre[i + 1]
+        elif parametre[i] == "--output":
+            output = parametre[i + 1]
+        elif parametre[i] == "--verbose":
+            verbose = True
+
+    if verbose:
+        print(f"rulesfiles {rulesfiles}")
+        print(f"output {output}")
+
+    lauch(rulesfiles, output)

@@ -18,7 +18,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 
-def generator(name, initial=None, final=None, data=None, node_names=None, possible_value=None, test=False):
+def generator(name, initial=None, final=None, data=None, node_names=None, possible_value=None):
     lien_xml = name
 
     # Créer la racine du document XML
@@ -83,15 +83,11 @@ if __name__ == "__main__":
         sys.exit(1)
 
     name = None
-    test = False
-
     for i in range(1, len(sys.argv), 2):
         if sys.argv[i] == "-name":
             name = sys.argv[i + 1]
-        elif sys.argv[i] == "-t":
-            test = True
         else:
-            print("Invalid argument. Use -name.")
+            print("Invalid argument. Use -name")
             sys.exit(1)
         if name is not None:
-            generator(name=name, test=test)
+            generator(name=name)

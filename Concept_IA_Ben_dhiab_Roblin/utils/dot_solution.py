@@ -232,9 +232,7 @@ def extract_solution(file_name="test.txt"):
     return solution
 
 
-if __name__ == "__main__":
-    name = sys.argv[1]
-    river = sys.argv[2]
+def lauch(name, river):
     input_filename = f"XML/{name}.xml"
     if river == "true":
         output_filename = f"DOT/{name}_River/{name}_Sol_"
@@ -243,3 +241,9 @@ if __name__ == "__main__":
         output_filename = f"DOT/{name}/{name}_Sol_"
     data = extract_solution(name + ".txt")
     xml_to_dot(xml_filename=input_filename, dot_filename=output_filename, solutions=data, river=river)
+
+
+if __name__ == "__main__":
+    name = sys.argv[1]
+    river = sys.argv[2]
+    lauch(name, river)

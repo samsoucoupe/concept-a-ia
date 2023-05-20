@@ -1,9 +1,9 @@
-[97;45mSat, 20 May 2023 11:52:03 +0200[39;49m
+[97;45mSat, 20 May 2023 16:03:04 +0200[39;49m
 Number of variables in a state=3
 Generic state variables
-ExtensionalVariable: 984849465 Enfant #3 {0 1 2}
-ExtensionalVariable: 411631404 Soldat #2 {0 1}
-ExtensionalVariable: 897913732 B #2 {0 1}
+ExtensionalVariable: 716157500 Enfant #3 {0 1 2}
+ExtensionalVariable: 716143810 Soldat #2 {0 1}
+ExtensionalVariable: 1849433705 B #2 {0 1}
 Table of tuples=TableOfTuples:#12
 [2, 1, 1, 1, 1, 0]
 [2, 1, 1, 0, 1, 0]
