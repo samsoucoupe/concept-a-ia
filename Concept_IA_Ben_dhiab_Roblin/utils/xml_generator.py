@@ -79,7 +79,7 @@ def generator(name, initial=None, final=None, data=None, node_names=None, possib
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python xml_generator.py -name <name>")
+        print("Usage: python3 xml_generator.py -name <name>")
 
     name = None
     for i in range(1, len(sys.argv), 2):

@@ -55,7 +55,7 @@ def solution(variable, max_val, river):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python3 genere_solution.py <variable> <max_val> <river>")
+        print("Usage: python3 genere_solution.py <river_mode> <name> <max_val>")
         exit(1)
     variable = sys.argv[2]
     max_val = sys.argv[3]
