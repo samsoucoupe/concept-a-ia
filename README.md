@@ -31,7 +31,7 @@ cd .\Concept_IA_Ben_dhiab_Roblin\`.
 ```
 3. Installez les dépendances requises en exécutant la commande 
 ```
-pip install -r .\requirements.txt`.
+pip install -r requirements.txt
 ```
 
 Pour lancer le projet, utilisez la commande suivante :
