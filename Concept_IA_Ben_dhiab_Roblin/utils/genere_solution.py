@@ -36,10 +36,10 @@ def solution(variable, max_val, river):
         variable_r = variable + "_River"
         new_rep(variable_r)
         converter.xml_to_dot(f"XML/{variable}.xml", f"DOT/{variable_r}/{variable}.dot", True)
-        # os.system(
-        #     f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver true -file XML/{variable}.xml")
-        # os.system(
-        #     f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable_r}.txt")
+        os.system(
+             f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver true -file XML/{variable}.xml")
+        os.system(
+            f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable_r}.txt")
         dot_solution.lauch(variable, True)
         files = os.listdir(f"DOT/{variable_r}")
         for file in files:
@@ -48,8 +48,8 @@ def solution(variable, max_val, river):
     else:
         new_rep(variable)
         converter.xml_to_dot(f"XML/{variable}.xml", f"DOT/{variable}/{variable}.dot", False)
-        # os.system(
-        #     f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable}.txt")
+        os.system(
+             f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable}.txt")
         dot_solution.lauch(variable, False)
         files = os.listdir(f"DOT/{variable}")
         for file in files:
