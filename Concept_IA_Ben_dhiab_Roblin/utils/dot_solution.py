@@ -244,6 +244,9 @@ def lauch(name, river):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage : python3 dot_solution.py <name> <river>")
+        exit(1)
     name = sys.argv[1]
     river = sys.argv[2]
     lauch(name, river)

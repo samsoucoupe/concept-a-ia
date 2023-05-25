@@ -213,12 +213,12 @@ def questionnaire(nom_fichier):
 
 if __name__ == "__main__":
     if len(sys.argv) > 2:
-        print("USAGE : python3 generator.py [nom_fichier]")
+        print("USAGE : python3 question.py [nom_fichier]")
         exit(1)
     elif len(sys.argv) == 2:
         nom_fichier = sys.argv[1]
         nom_fichier = "Rules_" + nom_fichier
     else:
-        print("USAGE : python3 generator.py [nom_fichier]")
+        print("USAGE : python3 question.py [nom_fichier]")
         exit(1)
     questionnaire(nom_fichier)

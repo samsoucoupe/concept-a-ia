@@ -336,7 +336,7 @@ if __name__ == '__main__':
     # parser
     parametre = sys.argv
     if len(parametre) not in [5, 6]:
-        print("Usage : python3 main.py --rulesfiles <rulesfiles> --output <output> [--verbose]")
+        print("Usage : python3 generator.py --rulesfiles <rulesfiles> --output <output> [--verbose]")
         exit(1)
     verbose = False
     for i in range(1, len(parametre)):
