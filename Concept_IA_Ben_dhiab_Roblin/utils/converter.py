@@ -373,7 +373,7 @@ def dot_to_xml(input_filename, output_filename):
 if __name__ == "__main__":
     parametres = sys.argv
     if len(parametres) != 5:
-        print("Usage: python3 converter.py -r <river> -type <type> -i <input> -o <output>")
+        print("Usage: python3 converter.py -r <river> -type <type [xtd, dtx]> -i <input file> -o <output file>")
         sys.exit(1)
 
     for i in range(1, len(parametres), 2):
