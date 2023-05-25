@@ -194,8 +194,9 @@ def xml_to_dot(xml_filename, dot_filename, solutions, river):
                 if solution[i] == initial_values and solution[i + 1] == final_values:
                     # mettre en gras le lien
                     trouve = True
+                    break
             if trouve:
-                dot_graph.edge(initial_values_str, final_values_str, penwidth="3", arrowhead="open", label=f"{num + 1}")
+                dot_graph.edge(initial_values_str, final_values_str, penwidth="3", arrowhead="open", label=f"{i}")
             else:
                 dot_graph.edge(initial_values_str, final_values_str, arrowhead="open")
 

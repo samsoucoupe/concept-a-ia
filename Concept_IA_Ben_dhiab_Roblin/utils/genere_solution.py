@@ -17,14 +17,18 @@
 import os
 import sys
 
-from . import dot_solution, converter
+import dot_solution, converter
 
 
 def new_rep(name):
     os.makedirs(f"PNG/{name}", exist_ok=True)
     os.makedirs(f"DOT/{name}", exist_ok=True)
-    os.system(f" rm -rf PNG/{name}_River/*")
-    os.system(f" rm -rf DOT/{name}_River/*")
+    for elt in os.listdir(f"PNG/{name}"):
+        if os.path.isfile(f"PNG/{name}/{elt}"):
+            os.remove(f"PNG/{name}/{elt}")
+    for elt in os.listdir(f"DOT/{name}"):
+        if os.path.isfile(f"DOT/{name}/{elt}"):
+            os.remove(f"DOT/{name}/{elt}")
 
 
 def solution(variable, max_val, river):
@@ -32,10 +36,10 @@ def solution(variable, max_val, river):
         variable_r = variable + "_River"
         new_rep(variable_r)
         converter.xml_to_dot(f"XML/{variable}.xml", f"DOT/{variable_r}/{variable}.dot", True)
-        os.system(
-            f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver true -file XML/{variable}.xml")
-        os.system(
-            f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable_r}.txt")
+        # os.system(
+        #     f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver true -file XML/{variable}.xml")
+        # os.system(
+        #     f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable_r}.txt")
         dot_solution.lauch(variable, True)
         files = os.listdir(f"DOT/{variable_r}")
         for file in files:
@@ -44,8 +48,8 @@ def solution(variable, max_val, river):
     else:
         new_rep(variable)
         converter.xml_to_dot(f"XML/{variable}.xml", f"DOT/{variable}/{variable}.dot", False)
-        os.system(
-            f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable}.txt")
+        # os.system(
+        #     f"java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n {max_val} -print 0 -resultsType 1 -crossingRiver false -file XML/{variable}.xml > TXT/{variable}.txt")
         dot_solution.lauch(variable, False)
         files = os.listdir(f"DOT/{variable}")
         for file in files:

@@ -20,7 +20,7 @@ import xml.etree.ElementTree as ET
 
 from graphviz import Digraph
 
-from . import xml_generator
+import xml_generator
 
 
 def extract_data_from_xml(xml_root):

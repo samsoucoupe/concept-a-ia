@@ -15,9 +15,10 @@
 #
 
 import json
+import os
 import sys
 
-from . import xml_generator
+import xml_generator
 
 
 def test_regle(init=[], state=[]):

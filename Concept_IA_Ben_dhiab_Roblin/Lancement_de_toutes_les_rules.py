@@ -13,21 +13,20 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #
-
+import json
 import os
+type_python = input("Type of python (python3 or python): ")
 
 files = os.listdir("Rules")
 print("List of all the rules files:")
 print(files)
 for file in files:
     name = file.split(".")[0][6:]
-    os.system(f"python3 utils/generator.py --rulesfiles Rules/{file} --output XML/{name}.xml")
-    open_type = os.popen(
-        f"cat Rules/{file} | grep 'type' | cut -d':' -f2 | cut -d',' -f1 | cut -d' ' -f2 | cut -d'\"' -f2").read().strip()
-    max_val = os.popen(
-        f"cat Rules/{file} | grep 'solution_max' | cut -d':' -f2 | cut -d',' -f1 | cut -d' ' -f2").read().strip()
+    os.system(f"{type_python} utils/generator.py --rulesfiles Rules/{file} --output XML/{name}.xml")
+    open_type = json.load(open(f"Rules/{file}", "r"))["info_problem"]["type"]
+    max_val = json.load(open(f"Rules/{file}", "r"))["info_problem"]["solution_max"]
     if open_type == "river":
-        os.system(f"python3 utils/genere_solution.py true {name} {max_val}")
-        os.system(f"python3 utils/genere_solution.py false {name} {max_val}")
+        os.system(f"{type_python} utils/genere_solution.py true {name} {max_val}")
+        os.system(f"{type_python} utils/genere_solution.py false {name} {max_val}")
     else:
-        os.system(f"python3 utils/genere_solution.py false {name} {max_val}")
+        os.system(f"{type_python} utils/genere_solution.py false {name} {max_val}")
