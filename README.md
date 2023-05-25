@@ -3,8 +3,8 @@
 Ce Readme fournit des informations sur le projet "Concept_IA_Ben_dhiab_Roblin" et explique comment le configurer et l'exécuter correctement.
 
 ## I. Introduction
-
-Ce projet a pour objectif d'appliquer les concepts de base de l'Intelligence Artificielle en utilisant un script Python. Les principales tâches du projet comprenaient :
+Ce projet est une application basée sur l'Intelligence Artificielle, implémentée en utilisant un script Python. Le but de ce projet était de mettre en pratique les concepts fondamentaux de l'Intelligence Artificielle. Les principales tâches comprenaient la manipulation de fichiers XML, la création de liens entre une table de transition et un graphe de transition, ainsi que la conception d'une interface conviviale.
+Les principales tâches du projet comprenaient :
 
 1. Compléter des fichiers .XML pour deux problèmes : "Loup Chèvre Salade Bateau" et "Sceaux à combiner à la manière de Die Hard".
 2. Établir un lien entre la table de transition et le graphe des transitions, permettant de convertir un fichier .XML en .DOT et vice versa.
