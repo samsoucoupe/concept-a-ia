@@ -1,4 +1,4 @@
-# Readme du Projet "Concept_IA_Ben_dhiab_Roblin"
+# Concept_IA_Ben_dhiab_Roblin
 
 Ce Readme fournit des informations sur le projet "Concept_IA_Ben_dhiab_Roblin" et explique comment le configurer et l'exécuter correctement.
 
